@@ -1,3 +1,15 @@
+/*
+* Generic headers files :
+*/
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <time.h>
+
+//Definition of our maximum/minimum light radius
+#define MAXIMUM_LIGHT_RADIUS (50)
+#define MINIMUM_LIGHT_RADIUS (10)
+
 //Type definition of Light
 typedef struct Light
 {
@@ -46,33 +58,75 @@ typedef struct AllMoney
 *           Allocate and initialize the memory and create a pointer on a table of "Light"
 * 
 * param :
-*           int lenght : The lenght of our table we want to allocate
+*           unsigned short int lenght : The lenght of our table we want to allocate
+*           unisgned short int windowWidth : The width of our graphical window
+*           unsigned short int windowHeight : The height of our graphical window
 *
 * return :
 *           AllLights* : A pointer on a table of "Light"
 */
-AllLights* createAllLights(int lenght);
+AllLights* createAllLights(unsigned short int lenght, unsigned short int windowWidth, unsigned short int windowHeight);
 
 /*
 * function :
 *           Allocate and initialize the memory and create a pointer on a table of "Thief"
 * 
 * param :
-*           int lenght : The lenght of our table we want to allocate
+*           unsigned short int lenght : The lenght of our table we want to allocate
+*           unisgned short int windowWidth : The width of our graphical window
+*           unsigned short int windowHeight : The height of our graphical window
 *
 * return :
 *           AllThieves* : A pointer on a table of "Thief"
 */
-AllThieves* createAllThieves(int lenght);
+AllThieves* createAllThieves(unsigned short int lenght, unsigned short int windowWidth, unsigned short int windowHeight);
 
 /*
 * function :
 *           Allocate and initialize the memory and create a pointer on a table of "Money"
 * 
 * param :
-*           int lenght : The lenght of our table we want to allocate
+*           unsigned short int lenght : The lenght of our table we want to allocate
+*           unisgned short int windowWidth : The width of our graphical window
+*           unsigned short int windowHeight : The height of our graphical window
 *
 * return :
 *           AllMoney* : A pointer on a table of "Money"
 */
-AllMoney* createAllMoney(int lenght);
+AllMoney* createAllMoney(unsigned short int lenght, unsigned short int windowWidth, unsigned short int windowHeight);
+
+/*
+* function :
+*           free the memory used by a table of "Light"
+* 
+* param :
+*           AllLights *tableOfLights : A pointer on a table of "Light"
+*
+* return :
+*           void
+*/
+void deleteAllLights(AllLights **tableOfLights);
+
+/*
+* function :
+*           free the memory used by a table of "Thief"
+* 
+* param :
+*           AllThieves *tableOfThieves : A pointer on a table of "Thief"
+*
+* return :
+*           void
+*/
+void deleteAllThieves(AllThieves **tableOfThieves);
+
+/*
+* function :
+*           free the memory used by a table of "Money"
+* 
+* param :
+*           AllMoney *tableOfMoney : A pointer on a table of "Money"
+*
+* return :
+*           void
+*/
+void deleteAllMoney(AllMoney **tableOfMoney);

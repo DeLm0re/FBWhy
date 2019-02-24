@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
 
 /*
 * Custom headers files :
@@ -24,6 +25,8 @@
 int main(int argc, char *argv[])
 {
 	initialiseGfx(argc, argv);
+
+	srand(time(NULL));
 
 	prepareFenetreGraphique(argv[argc-1], WindowWidth, WindowHeight);
 	lanceBoucleEvenements();
