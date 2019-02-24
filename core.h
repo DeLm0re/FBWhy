@@ -7,8 +7,8 @@
 #include <time.h>
 
 //Definition of our maximum/minimum light radius
-#define MAXIMUM_LIGHT_RADIUS (50)
-#define MINIMUM_LIGHT_RADIUS (10)
+#define MAXIMUM_LIGHT_RADIUS (70)
+#define MINIMUM_LIGHT_RADIUS (20)
 
 //Type definition of Light
 typedef struct Light

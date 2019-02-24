@@ -13,14 +13,11 @@
 #include "GfxLib.h"
 //To include valeurAleatoire() function
 #include "ESLib.h"
-//To include the core functions of our program
-#include "core.h"
 //To include the display functions of our program
 #include "display.h"
 
-//Default width and height
-#define WindowWidth 800
-#define WindowHeight 600
+//Definition of the frame rate in milliseconds (FPmS)
+#define FRAME_RATE (1000)
 
 int main(int argc, char *argv[])
 {
@@ -36,15 +33,18 @@ int main(int argc, char *argv[])
 
 void gestionEvenement(EvenementGfx event)
 {
-	static unsigned short int etape = 0;
+	static unsigned short int etape;
+	AllLights *myLights = NULL;
 
 	switch (event)
 	{
 		case Initialisation:
-			demandeTemporisation(-1);
+			etape = 0;
+			demandeTemporisation(FRAME_RATE);
 			break;
 
 		case Temporisation:
+			//Movements
 			rafraichisFenetre();
 			break;
 
@@ -53,16 +53,14 @@ void gestionEvenement(EvenementGfx event)
 			if(etape == 0)
 			{
 				effaceFenetre (0, 0, 0);
-				
+				myLights = createAllLights(3, largeurFenetre(), hauteurFenetre());
 				etape++;
 			}
 
 			if(etape == 1)
 			{
 				effaceFenetre (0, 0, 0);
-				epaisseurDeTrait(2);
-				couleurCourante(0, 200, 255);
-				afficheChaine("1 : 180° ; 7 : 720° ; i : iterate ; r : reset", 16, 5, 5);
+				drawAllLights(myLights);
 			}
 			break;
 
@@ -71,6 +69,7 @@ void gestionEvenement(EvenementGfx event)
 			{
 				case 'Q':
 				case 'q':
+					deleteAllLights(&myLights);
 					termineBoucleEvenements();
 					break;
 
