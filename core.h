@@ -138,11 +138,10 @@ void deleteAllMoney(AllMoney **tableOfMoney);
 * 
 * param :
 *           AllLights *tableOfLights : A pointer on a table of "Light"
-*           unsigned short int speed : The light speed
 *           unsigned short int windowWidth : The width of our graphical window
 *           unsigned short int windowheight : The height of our graphical window
 *
 * return :
 *           void
 */
-void moveAllLights(AllLights *tableOfLights, unsigned short int speed, unsigned short int windowWidth, unsigned short int windowHeight);
+void moveAllLights(AllLights *tableOfLights, unsigned short int windowWidth, unsigned short int windowHeight);

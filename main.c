@@ -17,10 +17,11 @@
 #include "display.h"
 
 //Definition of the frame rate in milliseconds (FPmS)
-#define FRAME_RATE (41)
+#define FRAME_RATE (10)
+#define FRAME_RATE_DEBUG (2000)
 
-//definition of the light speed
-#define LIGHT_SPEED (2)
+//Definition of the number of lights
+#define NUMBER_OF_LIGHTS (5)
 
 AllLights *myLights = NULL;
 
@@ -45,12 +46,13 @@ void gestionEvenement(EvenementGfx event)
 		case Initialisation:
 			etape = 0;
 			demandeTemporisation(FRAME_RATE);
+			//demandeTemporisation(FRAME_RATE_DEBUG);
 			break;
 
 		case Temporisation:
 			if(etape > 0)
 			{
-				moveAllLights(myLights, LIGHT_SPEED, largeurFenetre(), hauteurFenetre());
+				moveAllLights(myLights, largeurFenetre(), hauteurFenetre());
 			}
 			rafraichisFenetre();
 			break;
@@ -61,7 +63,7 @@ void gestionEvenement(EvenementGfx event)
 			{
 				effaceFenetre (0, 0, 0);
 				drawBorders();
-				myLights = createAllLights(3, largeurFenetre()/2, hauteurFenetre()/2);
+				myLights = createAllLights(NUMBER_OF_LIGHTS, largeurFenetre(), hauteurFenetre());
 				etape++;
 			}
 

@@ -33,7 +33,7 @@ void drawBorders()
 */
 void drawCircle(unsigned short int xCenter, unsigned short int yCenter, unsigned short int radius)
 {
-    unsigned short int x, y;
+    short int x, y;
     
     unsigned short int distancePow2;
 
@@ -43,7 +43,7 @@ void drawCircle(unsigned short int xCenter, unsigned short int yCenter, unsigned
     {
         for(x = xCenter - radius; x <= xCenter + radius; x++)
         {
-            if( (y < WindowHeight) || (x < WindowWidth) )
+            if( (y >= 0) || (y < WindowHeight) || (x >= 0) || (x < WindowWidth) )
             {
                 distancePow2 = (y - yCenter)*(y - yCenter) + (x - xCenter)*(x - xCenter);
                     
