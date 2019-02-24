@@ -25,6 +25,18 @@
 
 /*
 * function :
+*           Draw the borders in our graphical window
+* 
+* param :
+*           none
+*
+* return :
+*           void
+*/
+void drawBorders(void);
+
+/*
+* function :
 *           Draw a circle in graphical window
 * 
 * param :

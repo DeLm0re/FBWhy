@@ -3,6 +3,24 @@
 
 /*
 * function :
+*           Draw the borders in our graphical window
+* 
+* param :
+*           none
+*
+* return :
+*           void
+*/
+void drawBorders()
+{
+    ligne(0,0,largeurFenetre(),0);
+	ligne(0,0,0,hauteurFenetre());
+	ligne(0,hauteurFenetre(),largeurFenetre(),hauteurFenetre());
+	ligne(largeurFenetre(),0,largeurFenetre(),hauteurFenetre());
+}
+
+/*
+* function :
 *           Draw a circle in graphical window
 * 
 * param :

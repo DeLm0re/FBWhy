@@ -16,6 +16,7 @@ typedef struct Light
     unsigned short int x;
     unsigned short int y;
     unsigned short int radius;
+    unsigned short int direction;
 } Light;
 
 //Type definition of Thief
@@ -97,7 +98,7 @@ AllMoney* createAllMoney(unsigned short int lenght, unsigned short int windowWid
 
 /*
 * function :
-*           free the memory used by a table of "Light"
+*           Free the memory used by a table of "Light"
 * 
 * param :
 *           AllLights *tableOfLights : A pointer on a table of "Light"
@@ -109,7 +110,7 @@ void deleteAllLights(AllLights **tableOfLights);
 
 /*
 * function :
-*           free the memory used by a table of "Thief"
+*           Free the memory used by a table of "Thief"
 * 
 * param :
 *           AllThieves *tableOfThieves : A pointer on a table of "Thief"
@@ -121,7 +122,7 @@ void deleteAllThieves(AllThieves **tableOfThieves);
 
 /*
 * function :
-*           free the memory used by a table of "Money"
+*           Free the memory used by a table of "Money"
 * 
 * param :
 *           AllMoney *tableOfMoney : A pointer on a table of "Money"
@@ -130,3 +131,18 @@ void deleteAllThieves(AllThieves **tableOfThieves);
 *           void
 */
 void deleteAllMoney(AllMoney **tableOfMoney);
+
+/*
+* function :
+*           Move by one pixel, all the lights in a random direction
+* 
+* param :
+*           AllLights *tableOfLights : A pointer on a table of "Light"
+*           unsigned short int speed : The light speed
+*           unsigned short int windowWidth : The width of our graphical window
+*           unsigned short int windowheight : The height of our graphical window
+*
+* return :
+*           void
+*/
+void moveAllLights(AllLights *tableOfLights, unsigned short int speed, unsigned short int windowWidth, unsigned short int windowHeight);

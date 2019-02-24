@@ -25,9 +25,10 @@ AllLights* createAllLights(unsigned short int lenght, unsigned short int windowW
 
     for(index = 0; index < tableOfLights->lenght; index++)
     {
-        tableOfLights->lights[index].x = rand() % windowWidth;
-        tableOfLights->lights[index].y = rand() % windowHeight;
+        tableOfLights->lights[index].x = windowWidth;
+        tableOfLights->lights[index].y = windowHeight;
         tableOfLights->lights[index].radius = rand() % (MAXIMUM_LIGHT_RADIUS - MINIMUM_LIGHT_RADIUS + 1) + MINIMUM_LIGHT_RADIUS;
+        tableOfLights->lights[index].direction = rand() % 8;
     }
 
     return(tableOfLights);
@@ -99,7 +100,7 @@ AllMoney* createAllMoney(unsigned short int lenght, unsigned short int windowWid
 
 /*
 * function :
-*           free the memory used by a table of "Light"
+*           Free the memory used by a table of "Light"
 * 
 * param :
 *           AllLights *tableOfLights : A pointer on a table of "Light"
@@ -117,7 +118,7 @@ void deleteAllLights(AllLights **tableOfLights)
 
 /*
 * function :
-*           free the memory used by a table of "Thief"
+*           Free the memory used by a table of "Thief"
 * 
 * param :
 *           AllThieves *tableOfThieves : A pointer on a table of "Thief"
@@ -135,7 +136,7 @@ void deleteAllThieves(AllThieves **tableOfThieves)
 
 /*
 * function :
-*           free the memory used by a table of "Money"
+*           Free the memory used by a table of "Money"
 * 
 * param :
 *           AllMoney *tableOfMoney : A pointer on a table of "Money"
@@ -149,4 +150,107 @@ void deleteAllMoney(AllMoney **tableOfMoney)
     free(*tableOfMoney);
 
     *tableOfMoney = NULL;
+}
+
+/*
+* function :
+*           Move by one pixel, all the lights in a random direction
+* 
+* param :
+*           AllLights *tableOfLights : A pointer on a table of "Light"
+*           unsigned short int speed : The light speed
+*           unsigned short int windowWidth : The width of our graphical window
+*           unsigned short int windowheight : The height of our graphical window
+*
+* return :
+*           void
+*/
+void moveAllLights(AllLights *tableOfLights, unsigned short int speed, unsigned short int windowWidth, unsigned short int windowHeight)
+{
+    unsigned short int index;
+
+    unsigned short int direction;
+
+    for(index = 0; index < tableOfLights->lenght; index++)
+    {
+        direction = tableOfLights->lights[index].direction;
+
+        if(direction == 0)
+        {
+            tableOfLights->lights[index].y += speed;
+            if(tableOfLights->lights[index].y >= windowHeight)
+            {
+                tableOfLights->lights[index].direction = rand() % 8;
+            }
+        }
+
+        if(direction == 1)
+        {
+            tableOfLights->lights[index].x += speed;
+            tableOfLights->lights[index].y += speed;
+            if( (tableOfLights->lights[index].y >= windowHeight) || (tableOfLights->lights[index].x >= windowWidth) )
+            {
+                tableOfLights->lights[index].direction = rand() % 8;
+            }
+        }
+
+        if(direction == 2)
+        {
+            tableOfLights->lights[index].x += speed;
+            if(tableOfLights->lights[index].x >= windowWidth)
+            {
+                tableOfLights->lights[index].direction = rand() % 8;
+            }
+        }
+
+        if(direction == 3)
+        {
+            tableOfLights->lights[index].x += speed;
+            tableOfLights->lights[index].y -= speed;
+            if( (tableOfLights->lights[index].y <= 0) || (tableOfLights->lights[index].x >= windowWidth) )
+            {
+                tableOfLights->lights[index].direction = rand() % 8;
+            }
+        }
+
+        if(direction == 4)
+        {
+            tableOfLights->lights[index].y -= speed;
+            if(tableOfLights->lights[index].y <= 0)
+            {
+                tableOfLights->lights[index].direction = rand() % 8;
+            }
+           
+        }
+
+        if(direction == 5)
+        {
+            tableOfLights->lights[index].x -= speed;
+            tableOfLights->lights[index].y -= speed;
+            if( (tableOfLights->lights[index].y <= 0) || (tableOfLights->lights[index].x <= 0) )
+            {
+                tableOfLights->lights[index].direction = rand() % 8;
+            }
+        }
+
+        if(direction == 6)
+        {
+            tableOfLights->lights[index].x -= speed;
+            if(tableOfLights->lights[index].x <= 0)
+            {
+                tableOfLights->lights[index].direction = rand() % 8;
+            }
+
+        }
+
+        if(direction == 7)
+        {
+            tableOfLights->lights[index].x -= speed;
+            tableOfLights->lights[index].y += speed;
+            if( (tableOfLights->lights[index].y >= windowHeight) || (tableOfLights->lights[index].x <= 0) )
+            {
+                tableOfLights->lights[index].direction = rand() % 8;
+            }
+        }
+    }
 }

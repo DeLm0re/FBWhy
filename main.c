@@ -17,7 +17,12 @@
 #include "display.h"
 
 //Definition of the frame rate in milliseconds (FPmS)
-#define FRAME_RATE (1000)
+#define FRAME_RATE (41)
+
+//definition of the light speed
+#define LIGHT_SPEED (2)
+
+AllLights *myLights = NULL;
 
 int main(int argc, char *argv[])
 {
@@ -25,7 +30,7 @@ int main(int argc, char *argv[])
 
 	srand(time(NULL));
 
-	prepareFenetreGraphique(argv[argc-1], WindowWidth, WindowHeight);
+	prepareFenetreGraphique("FBWhy", WindowWidth, WindowHeight);
 	lanceBoucleEvenements();
 
 	return 0;
@@ -34,7 +39,6 @@ int main(int argc, char *argv[])
 void gestionEvenement(EvenementGfx event)
 {
 	static unsigned short int etape;
-	AllLights *myLights = NULL;
 
 	switch (event)
 	{
@@ -44,7 +48,10 @@ void gestionEvenement(EvenementGfx event)
 			break;
 
 		case Temporisation:
-			//Movements
+			if(etape > 0)
+			{
+				moveAllLights(myLights, LIGHT_SPEED, largeurFenetre(), hauteurFenetre());
+			}
 			rafraichisFenetre();
 			break;
 
@@ -53,13 +60,15 @@ void gestionEvenement(EvenementGfx event)
 			if(etape == 0)
 			{
 				effaceFenetre (0, 0, 0);
-				myLights = createAllLights(3, largeurFenetre(), hauteurFenetre());
+				drawBorders();
+				myLights = createAllLights(3, largeurFenetre()/2, hauteurFenetre()/2);
 				etape++;
 			}
 
 			if(etape == 1)
 			{
 				effaceFenetre (0, 0, 0);
+				drawBorders();
 				drawAllLights(myLights);
 			}
 			break;
