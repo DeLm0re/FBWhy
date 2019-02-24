@@ -1,20 +1,32 @@
-#include <stdlib.h> // For exit()
-#include <stdio.h> // For printf()
-#include <math.h> // For sin() and cos()
-#include "GfxLib.h" // To do simple graphics
-#include "ESLib.h" // For valeurAleatoire()
+/*
+* Generic headers files :
+*/
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <time.h>
 
-#ifndef M_PI
-#define M_PI 3.141592654
-#endif
+/*
+* Custom headers files :
+*/
+//To include graphical functions
+#include "GfxLib.h"
+//To include valeurAleatoire() function
+#include "ESLib.h"
+//To include the core functions of our program
+#include "core.h"
+//To include the display functions of our program
+#include "display.h"
 
-// Default width and height
+//Default width and height
 #define WindowWidth 800
 #define WindowHeight 600
 
 int main(int argc, char *argv[])
 {
 	initialiseGfx(argc, argv);
+
+	srand(time(NULL));
 
 	prepareFenetreGraphique(argv[argc-1], WindowWidth, WindowHeight);
 	lanceBoucleEvenements();
@@ -24,6 +36,8 @@ int main(int argc, char *argv[])
 
 void gestionEvenement(EvenementGfx event)
 {
+	static unsigned short int etape = 0;
+
 	switch (event)
 	{
 		case Initialisation:
@@ -35,10 +49,21 @@ void gestionEvenement(EvenementGfx event)
 			break;
 
 		case Affichage:
-			effaceFenetre (0, 0, 0);
-			epaisseurDeTrait(2);
-			couleurCourante(0, 200, 255);
-			afficheChaine("1 : 180° ; 7 : 720° ; i : iterate ; r : reset", 16, 5, 5);
+
+			if(etape == 0)
+			{
+				effaceFenetre (0, 0, 0);
+				
+				etape++;
+			}
+
+			if(etape == 1)
+			{
+				effaceFenetre (0, 0, 0);
+				epaisseurDeTrait(2);
+				couleurCourante(0, 200, 255);
+				afficheChaine("1 : 180° ; 7 : 720° ; i : iterate ; r : reset", 16, 5, 5);
+			}
 			break;
 
 		case Clavier:
