@@ -1,14 +1,23 @@
-#include <stdlib.h> // For exit()
-#include <stdio.h> // For printf()
-#include <math.h> // For sin() and cos()
-#include "GfxLib.h" // To do simple graphics
-#include "ESLib.h" // For valeurAleatoire()
+/*
+* Generic headers files :
+*/
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
 
-#ifndef M_PI
-#define M_PI 3.141592654
-#endif
+/*
+* Custom headers files :
+*/
+//To include graphical functions
+#include "GfxLib.h"
+//To include valeurAleatoire() function
+#include "ESLib.h"
+//To include the core functions of our program
+#include "core.h"
+//To include the display functions of our program
+#include "display.h"
 
-// Default width and height
+//Default width and height
 #define WindowWidth 800
 #define WindowHeight 600
 
