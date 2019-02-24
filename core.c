@@ -17,9 +17,11 @@ AllLights* createAllLights(unsigned short int lenght, unsigned short int windowW
 {
     int index;
 
-    AllLights *tableOfLights = (AllLights*)malloc(sizeof(Light) * lenght);
+    AllLights *tableOfLights = (AllLights*)malloc(sizeof(AllLights));
 
     tableOfLights->lenght = lenght;
+
+    tableOfLights->lights = malloc(sizeof(Light) * lenght);
 
     for(index = 0; index < tableOfLights->lenght; index++)
     {
@@ -47,9 +49,11 @@ AllThieves* createAllThieves(unsigned short int lenght, unsigned short int windo
 {
     int index;
 
-    AllThieves *tableOfThieves = (AllThieves*)malloc(sizeof(Thief) * lenght);
+    AllThieves *tableOfThieves = (AllThieves*)malloc(sizeof(AllThieves));
 
     tableOfThieves->lenght = lenght;
+
+    tableOfThieves->thieves = malloc(sizeof(Thief) * lenght);
 
     for(index = 0; index < tableOfThieves->lenght; index++)
     {
@@ -77,9 +81,11 @@ AllMoney* createAllMoney(unsigned short int lenght, unsigned short int windowWid
 {
     int index;
 
-    AllMoney *tableOfMoney = (AllMoney*)malloc(sizeof(Money) * lenght);
+    AllMoney *tableOfMoney = (AllMoney*)malloc(sizeof(AllMoney));
 
     tableOfMoney->lenght = lenght;
+
+    tableOfMoney->money = malloc(sizeof(Money) * lenght);
 
     for(index = 0; index < tableOfMoney->lenght; index++)
     {
@@ -103,6 +109,7 @@ AllMoney* createAllMoney(unsigned short int lenght, unsigned short int windowWid
 */
 void deleteAllLights(AllLights **tableOfLights)
 {
+    free((*tableOfLights)->lights);
     free(*tableOfLights);
 
     *tableOfLights = NULL;
@@ -120,6 +127,7 @@ void deleteAllLights(AllLights **tableOfLights)
 */
 void deleteAllThieves(AllThieves **tableOfThieves)
 {
+    free((*tableOfThieves)->thieves);
     free(*tableOfThieves);
 
     *tableOfThieves = NULL;
@@ -137,6 +145,7 @@ void deleteAllThieves(AllThieves **tableOfThieves)
 */
 void deleteAllMoney(AllMoney **tableOfMoney)
 {
+    free((*tableOfMoney)->money);
     free(*tableOfMoney);
 
     *tableOfMoney = NULL;

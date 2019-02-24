@@ -36,6 +36,8 @@ int main(int argc, char *argv[])
 
 void gestionEvenement(EvenementGfx event)
 {
+	static unsigned short int etape = 0;
+
 	switch (event)
 	{
 		case Initialisation:
@@ -47,10 +49,21 @@ void gestionEvenement(EvenementGfx event)
 			break;
 
 		case Affichage:
-			effaceFenetre (0, 0, 0);
-			epaisseurDeTrait(2);
-			couleurCourante(0, 200, 255);
-			afficheChaine("1 : 180° ; 7 : 720° ; i : iterate ; r : reset", 16, 5, 5);
+
+			if(etape == 0)
+			{
+				effaceFenetre (0, 0, 0);
+				
+				etape++;
+			}
+
+			if(etape == 1)
+			{
+				effaceFenetre (0, 0, 0);
+				epaisseurDeTrait(2);
+				couleurCourante(0, 200, 255);
+				afficheChaine("1 : 180° ; 7 : 720° ; i : iterate ; r : reset", 16, 5, 5);
+			}
 			break;
 
 		case Clavier:
