@@ -70,8 +70,8 @@ void gestionEvenement(EvenementGfx event)
 			if(etape == 1)
 			{
 				effaceFenetre (0, 0, 0);
-				drawBorders();
 				drawAllLights(myLights);
+				drawBorders();
 			}
 			break;
 

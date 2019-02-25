@@ -7,8 +7,8 @@
 #include <time.h>
 
 //Definition of our maximum/minimum light radius
-#define MAXIMUM_LIGHT_RADIUS (70)
-#define MINIMUM_LIGHT_RADIUS (20)
+#define MAXIMUM_LIGHT_RADIUS (100)
+#define MINIMUM_LIGHT_RADIUS (90)
 
 //Type definition of Light
 typedef struct Light
@@ -16,7 +16,8 @@ typedef struct Light
     unsigned short int x;
     unsigned short int y;
     unsigned short int radius;
-    unsigned short int direction;
+    unsigned short int xDirection;
+    unsigned short int yDirection;
 } Light;
 
 //Type definition of Thief
@@ -145,3 +146,20 @@ void deleteAllMoney(AllMoney **tableOfMoney);
 *           void
 */
 void moveAllLights(AllLights *tableOfLights, unsigned short int windowWidth, unsigned short int windowHeight);
+
+/*
+* function :
+*           Transform a floating value between two values in an other floating value between two other values
+*           Proportions are saved
+* 
+* param :
+*           float value : The value to transform
+*           float minValue : The first minimum value
+*           float maxValue : The first maximum value
+*           float newMin : The new minimum value
+*           float newMax : The new maximum value
+*
+* return :
+*           void
+*/
+float rescale(float value, float minValue, float maxValue, float newMin, float newMax);

@@ -26,34 +26,27 @@ void drawBorders()
 * param :
 *           unsigned short int xCenter : The coordonate x of our circle center
 *           unisgned short int yCenter : The coordonate y of our circle center
-*           unsigned short int radius : The radius of our circle
+*           float radius : The radius of our circle
 *
 * return :
 *           void
 */
-void drawCircle(unsigned short int xCenter, unsigned short int yCenter, unsigned short int radius)
+void drawCircle(unsigned short int xCenter, unsigned short int yCenter, float radius)
 {
-    short int x, y;
-    
-    unsigned short int distancePow2;
+    const int Steps = NUMBER_SECTORS;
 
-    unsigned short int radiusPow2 = radius * radius;
+	const double AngularSteps = 2.*M_PI/Steps;
 
-    for(y = yCenter - radius; y <= yCenter + radius; y++)
-    {
-        for(x = xCenter - radius; x <= xCenter + radius; x++)
-        {
-            if( (y >= 0) || (y < WindowHeight) || (x >= 0) || (x < WindowWidth) )
-            {
-                distancePow2 = (y - yCenter)*(y - yCenter) + (x - xCenter)*(x - xCenter);
-                    
-                if(distancePow2 <= radiusPow2)
-                {
-                    point(x, y);
-                }
-            }
-        }
-    }
+	int index;
+
+	for (index = 0; index < Steps; ++index)
+	{
+		const double angle = 2.*M_PI*index/Steps;
+
+		triangle(xCenter, yCenter,
+                xCenter+radius*cos(angle), yCenter+radius*sin(angle),
+			     xCenter+radius*cos(angle+AngularSteps), yCenter+radius*sin(angle+AngularSteps));
+	}
 }
 
 /*
@@ -72,9 +65,25 @@ void drawAllLights(AllLights *myLights)
 
     epaisseurDeTrait(1);
 
+    unsigned short int maxRadius;
+    short int currentRadius;
+
 	for(index = 0; index < myLights->lenght; index++)
 	{
-		couleurCourante(255, 255, 255);
-		drawCircle(myLights->lights[index].x, myLights->lights[index].y, myLights->lights[index].radius);
+        maxRadius = myLights->lights[index].radius;
+
+        for(currentRadius = maxRadius; currentRadius >= (MINIMUM_LIGHT_RADIUS/2); currentRadius--)
+        {
+            couleurCourante(
+                    rescale(currentRadius, maxRadius, 0, 0, 255),
+                    rescale(currentRadius, maxRadius, 0, 0, 255),
+                    rescale(currentRadius, maxRadius, 0, 0, 255)
+                    );
+
+            drawCircle(myLights->lights[index].x, myLights->lights[index].y, currentRadius);
+        }
+
+        couleurCourante(255, 255, 255);
+        drawCircle(myLights->lights[index].x, myLights->lights[index].y, (MINIMUM_LIGHT_RADIUS/2));
 	}
 }

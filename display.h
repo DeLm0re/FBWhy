@@ -19,6 +19,9 @@
 #define M_PI (3.141592654)
 #endif
 
+//Definition of the number of sectors we used to draw a circle
+#define NUMBER_SECTORS (16)
+
 //Default width and height
 #define WindowWidth 800
 #define WindowHeight 600
@@ -42,12 +45,12 @@ void drawBorders(void);
 * param :
 *           unsigned short int xCenter : The coordonate x of our circle center
 *           unisgned short int yCenter : The coordonate y of our circle center
-*           unsigned short int radius : The radius of our circle
+*           float radius : The radius of our circle
 *
 * return :
 *           void
 */
-void drawCircle(unsigned short int xCenter, unsigned short int yCenter, unsigned short int radius);
+void drawCircle(unsigned short int xCenter, unsigned short int yCenter, float radius);
 
 /*
 * function :
