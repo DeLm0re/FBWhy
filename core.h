@@ -7,8 +7,8 @@
 #include <time.h>
 
 //Definition of our maximum/minimum light radius
-#define MAXIMUM_LIGHT_RADIUS (50)
-#define MINIMUM_LIGHT_RADIUS (10)
+#define MAXIMUM_LIGHT_RADIUS (100)
+#define MINIMUM_LIGHT_RADIUS (90)
 
 //Type definition of Light
 typedef struct Light
@@ -16,6 +16,8 @@ typedef struct Light
     unsigned short int x;
     unsigned short int y;
     unsigned short int radius;
+    unsigned short int xDirection;
+    unsigned short int yDirection;
 } Light;
 
 //Type definition of Thief
@@ -97,7 +99,7 @@ AllMoney* createAllMoney(unsigned short int lenght, unsigned short int windowWid
 
 /*
 * function :
-*           free the memory used by a table of "Light"
+*           Free the memory used by a table of "Light"
 * 
 * param :
 *           AllLights *tableOfLights : A pointer on a table of "Light"
@@ -109,7 +111,7 @@ void deleteAllLights(AllLights **tableOfLights);
 
 /*
 * function :
-*           free the memory used by a table of "Thief"
+*           Free the memory used by a table of "Thief"
 * 
 * param :
 *           AllThieves *tableOfThieves : A pointer on a table of "Thief"
@@ -121,7 +123,7 @@ void deleteAllThieves(AllThieves **tableOfThieves);
 
 /*
 * function :
-*           free the memory used by a table of "Money"
+*           Free the memory used by a table of "Money"
 * 
 * param :
 *           AllMoney *tableOfMoney : A pointer on a table of "Money"
@@ -130,3 +132,34 @@ void deleteAllThieves(AllThieves **tableOfThieves);
 *           void
 */
 void deleteAllMoney(AllMoney **tableOfMoney);
+
+/*
+* function :
+*           Move by one pixel, all the lights in a random direction
+* 
+* param :
+*           AllLights *tableOfLights : A pointer on a table of "Light"
+*           unsigned short int windowWidth : The width of our graphical window
+*           unsigned short int windowheight : The height of our graphical window
+*
+* return :
+*           void
+*/
+void moveAllLights(AllLights *tableOfLights, unsigned short int windowWidth, unsigned short int windowHeight);
+
+/*
+* function :
+*           Transform a floating value between two values in an other floating value between two other values
+*           Proportions are saved
+* 
+* param :
+*           float value : The value to transform
+*           float minValue : The first minimum value
+*           float maxValue : The first maximum value
+*           float newMin : The new minimum value
+*           float newMax : The new maximum value
+*
+* return :
+*           void
+*/
+float rescale(float value, float minValue, float maxValue, float newMin, float newMax);
