@@ -291,7 +291,7 @@ void positionElements(AllLights *tableOfLights, AllThieves *tableOfThieves, AllM
 bool thiefUnderLights(AllThieves *tableOfThieves, unsigned short int indexThieves, AllLights *tableOfLights)
 {
     float distance;
-    unsigned short int radiusPow = (MINIMUM_LIGHT_RADIUS/2) * (MINIMUM_LIGHT_RADIUS/2);
+    float radiusPow = MAXIMUM_LIGHT_RADIUS * MAXIMUM_LIGHT_RADIUS;
 
     unsigned short int indexLights;
 
@@ -300,7 +300,10 @@ bool thiefUnderLights(AllThieves *tableOfThieves, unsigned short int indexThieve
     for(indexLights = 0; indexLights < tableOfLights->lenght; indexLights++)
     {
         distance = (tableOfThieves->thieves[indexThieves].x - tableOfLights->lights[indexLights].x)
-                    + (tableOfThieves->thieves[indexThieves].y - tableOfLights->lights[indexLights].y);
+                    *(tableOfThieves->thieves[indexThieves].x - tableOfLights->lights[indexLights].x)
+                    + 
+                    (tableOfThieves->thieves[indexThieves].y - tableOfLights->lights[indexLights].y)
+                    *(tableOfThieves->thieves[indexThieves].y - tableOfLights->lights[indexLights].y);
 
         if(distance > radiusPow)
         {
@@ -333,7 +336,7 @@ bool thiefUnderLights(AllThieves *tableOfThieves, unsigned short int indexThieve
 bool moneyOnThieves(AllMoney *tableOfMoney, unsigned short int indexMoney, AllThieves *tableOfThieves)
 {
     float distance;
-    unsigned short int radiusPow = DISTANCE_MONEY_THIEVES * DISTANCE_MONEY_THIEVES;
+    unsigned short int distancePow = DISTANCE_MONEY_THIEVES * DISTANCE_MONEY_THIEVES;
 
     unsigned short int indexThieves;
 
@@ -342,9 +345,11 @@ bool moneyOnThieves(AllMoney *tableOfMoney, unsigned short int indexMoney, AllTh
     for(indexThieves = 0; indexThieves  < tableOfThieves ->lenght; indexThieves ++)
     {
         distance = (tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[indexThieves].x)
-                    + (tableOfMoney->money[indexMoney].y - tableOfThieves->thieves[indexThieves].y);
+                    *(tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[indexThieves].x)
+                    + (tableOfMoney->money[indexMoney].y - tableOfThieves->thieves[indexThieves].y)
+                    *(tableOfMoney->money[indexMoney].y - tableOfThieves->thieves[indexThieves].y);
 
-        if(distance > radiusPow)
+        if(distance > distancePow)
         {
             incrementThieves++;
         }

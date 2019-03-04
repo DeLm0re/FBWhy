@@ -19,16 +19,16 @@
 
 //Definition of the frame rate in milliseconds (FPmS)
 #define FRAME_RATE (10)
-#define FRAME_RATE_DEBUG (2000)
+#define FRAME_RATE_DEBUG (10000)
 
 //Definition of the number of lights
-#define NUMBER_OF_LIGHTS (5)
+#define NUMBER_OF_LIGHTS (10)
 
 //Definition of the number of thieves
-#define NUMBER_OF_THIEVES (3)
+#define NUMBER_OF_THIEVES (5)
 
 //Definition of the number of money
-#define NUMBER_OF_MONEY (3)
+#define NUMBER_OF_MONEY (5)
 
 AllLights *myLights = NULL;
 AllThieves *myThieves = NULL;

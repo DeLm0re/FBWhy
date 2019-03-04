@@ -8,11 +8,11 @@
 #include <time.h>
 
 //Definition of our maximum/minimum light radius
-#define MAXIMUM_LIGHT_RADIUS (100)
-#define MINIMUM_LIGHT_RADIUS (90)
+#define MAXIMUM_LIGHT_RADIUS (70)
+#define MINIMUM_LIGHT_RADIUS (60)
 
 //Definition of the distance between the money and the thieves at the initialization
-#define DISTANCE_MONEY_THIEVES (20)
+#define DISTANCE_MONEY_THIEVES (200)
 
 //Type definition of Light
 typedef struct Light
