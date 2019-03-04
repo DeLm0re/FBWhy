@@ -59,13 +59,11 @@ AllLights* createAllLights(unsigned short int lenght, unsigned short int windowW
 * 
 * param :
 *           unsigned short int lenght : The lenght of our table we want to allocate
-*           unisgned short int windowWidth : The width of our graphical window
-*           unsigned short int windowHeight : The height of our graphical window
 *
 * return :
 *           AllThieves* : A pointer on a table of "Thief"
 */
-AllThieves* createAllThieves(unsigned short int lenght, unsigned short int windowWidth, unsigned short int windowHeight)
+AllThieves* createAllThieves(unsigned short int lenght)
 {
     int index;
 
@@ -77,9 +75,8 @@ AllThieves* createAllThieves(unsigned short int lenght, unsigned short int windo
 
     for(index = 0; index < tableOfThieves->lenght; index++)
     {
-        tableOfThieves->thieves[index].x = rand() % ((windowWidth-10) - 10 + 1) + 10;
-        tableOfThieves->thieves[index].y = rand() % ((windowHeight-10) -10 + 1) + 10;
-        //Verification x,y > light(x,y) + min_radius/2
+        tableOfThieves->thieves[index].x = 0;
+        tableOfThieves->thieves[index].y = 0;
     }
 
     return(tableOfThieves);
@@ -91,13 +88,11 @@ AllThieves* createAllThieves(unsigned short int lenght, unsigned short int windo
 * 
 * param :
 *           unsigned short int lenght : The lenght of our table we want to allocate
-*           unisgned short int windowWidth : The width of our graphical window
-*           unsigned short int windowHeight : The height of our graphical window
 *
 * return :
 *           AllMoney* : A pointer on a table of "Money"
 */
-AllMoney* createAllMoney(unsigned short int lenght, unsigned short int windowWidth, unsigned short int windowHeight)
+AllMoney* createAllMoney(unsigned short int lenght)
 {
     int index;
 
@@ -109,9 +104,8 @@ AllMoney* createAllMoney(unsigned short int lenght, unsigned short int windowWid
 
     for(index = 0; index < tableOfMoney->lenght; index++)
     {
-        tableOfMoney->money[index].x = rand() % ((windowWidth-10) - 10 + 1) + 10;
-        tableOfMoney->money[index].y = rand() % ((windowHeight-10) -10 + 1) + 10;
-        //Verification x,y =/= thief(x,y) to add
+        tableOfMoney->money[index].x = 0;
+        tableOfMoney->money[index].y = 0;
     }
 
     return(tableOfMoney);
@@ -236,4 +230,135 @@ float rescale(float value, float minValue, float maxValue, float newMin, float n
 	float newValue = (value - minValue) / betweenValue;
 
 	return(newMin + newValue * (newMax - newMin));
+}
+
+/*
+* function :
+*           Calcul all the positions of our elements
+*           - Thieves can not be under lights, because they will "die" instantly
+*           - Money can not be near thieves, because it's to easy for the learning
+* 
+* param :
+*           AllLights *tableOfLights : A pointer on a table of "Light"
+*           AllThieves *tableOfThieves : A pointer on a table of "Thieves"
+*           AllMoney *tableOfMoney : A pointer on a table of "Money"
+*           unsigned short int windowWidth : The width of our graphical window
+*           unsigned short int windowheight : The height of our graphical window
+*
+* return :
+*           void
+*/
+void positionElements(AllLights *tableOfLights, AllThieves *tableOfThieves, AllMoney *tableOfMoney, unsigned short int windowWidth, unsigned short int windowHeight)
+{
+    unsigned short int indexThieves;
+    unsigned short int indexMoney;
+
+    for(indexThieves = 0; indexThieves < tableOfThieves->lenght; indexThieves++)
+    {
+        do
+        {
+            tableOfThieves->thieves[indexThieves].x = rand() % ((windowWidth-10) -10 + 1) + 10;
+            tableOfThieves->thieves[indexThieves].y = rand() % ((windowHeight-10) -10 + 1) + 10;
+
+        }while(thiefUnderLights(tableOfThieves, indexThieves, tableOfLights) == true);
+    }
+
+    for(indexMoney = 0; indexMoney < tableOfThieves->lenght; indexMoney++)
+    {
+        do
+        {
+            tableOfMoney->money[indexMoney].x = rand() % ((windowWidth-10) -10 + 1) + 10;
+            tableOfMoney->money[indexMoney].y = rand() % ((windowHeight-10) -10 + 1) + 10;
+
+        }while(moneyOnThieves(tableOfMoney, indexMoney, tableOfThieves) == true);
+    }
+}
+
+/*
+* function :
+*           Tell if a thief is to near or under a light
+* 
+* param :
+*           AllThieves *tableOfThieves : A pointer on a table of "Thieves"
+*           unsigned short int indexThieves : The index in the table of "Thieves" of our thief we want to analyze
+*           AllLights *tableOfLights : A pointer on a table of "Lights"
+*
+* return :
+*           boolean
+*           - True, the thief is to near or under a light
+*           - False, the thief have a good position
+*/
+bool thiefUnderLights(AllThieves *tableOfThieves, unsigned short int indexThieves, AllLights *tableOfLights)
+{
+    float distance;
+    float radiusPow = MAXIMUM_LIGHT_RADIUS * MAXIMUM_LIGHT_RADIUS;
+
+    unsigned short int indexLights;
+
+    unsigned short int incrementLights = 0;
+
+    for(indexLights = 0; indexLights < tableOfLights->lenght; indexLights++)
+    {
+        distance = (tableOfThieves->thieves[indexThieves].x - tableOfLights->lights[indexLights].x)
+                    *(tableOfThieves->thieves[indexThieves].x - tableOfLights->lights[indexLights].x)
+                    + 
+                    (tableOfThieves->thieves[indexThieves].y - tableOfLights->lights[indexLights].y)
+                    *(tableOfThieves->thieves[indexThieves].y - tableOfLights->lights[indexLights].y);
+
+        if(distance > radiusPow)
+        {
+            incrementLights++;
+        }
+    }
+
+    if(incrementLights == tableOfLights->lenght)
+    {
+        return(false);
+    }
+    
+    return(true);
+}
+
+/*
+* function :
+*           Tell if a money is to near with a thief
+* 
+* param :
+*           AllMoney *tableOfMoney : A pointer on a table of "Money"
+*           unsigned short int indexMoney : The index in the table of "Money" of our thief we want to analyze
+*           AllThieves *tableOfThieves : A pointer on a table of "Thieves"
+*
+* return :
+*           boolean
+*           - True, the money is to near with a thief
+*           - False, the money have a good position
+*/
+bool moneyOnThieves(AllMoney *tableOfMoney, unsigned short int indexMoney, AllThieves *tableOfThieves)
+{
+    float distance;
+    unsigned short int distancePow = DISTANCE_MONEY_THIEVES * DISTANCE_MONEY_THIEVES;
+
+    unsigned short int indexThieves;
+
+    unsigned short int incrementThieves = 0;
+
+    for(indexThieves = 0; indexThieves  < tableOfThieves ->lenght; indexThieves ++)
+    {
+        distance = (tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[indexThieves].x)
+                    *(tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[indexThieves].x)
+                    + (tableOfMoney->money[indexMoney].y - tableOfThieves->thieves[indexThieves].y)
+                    *(tableOfMoney->money[indexMoney].y - tableOfThieves->thieves[indexThieves].y);
+
+        if(distance > distancePow)
+        {
+            incrementThieves++;
+        }
+    }
+
+    if(incrementThieves == tableOfThieves->lenght)
+    {
+        return(false);
+    }
+    
+    return(true);
 }

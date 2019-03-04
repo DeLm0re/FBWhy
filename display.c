@@ -13,6 +13,8 @@
 */
 void drawBorders()
 {
+    epaisseurDeTrait(1);
+    couleurCourante(255, 255, 255);
     ligne(0,0,largeurFenetre(),0);
 	ligne(0,0,0,hauteurFenetre());
 	ligne(0,hauteurFenetre(),largeurFenetre(),hauteurFenetre());
@@ -63,10 +65,10 @@ void drawAllLights(AllLights *myLights)
 {
     unsigned short int index;
 
-    epaisseurDeTrait(1);
-
     unsigned short int maxRadius;
-    short int currentRadius;
+    unsigned short int currentRadius;
+
+    epaisseurDeTrait(1);
 
 	for(index = 0; index < myLights->lenght; index++)
 	{
@@ -85,5 +87,51 @@ void drawAllLights(AllLights *myLights)
 
         couleurCourante(255, 255, 255);
         drawCircle(myLights->lights[index].x, myLights->lights[index].y, (MINIMUM_LIGHT_RADIUS/2));
+	}
+}
+
+/*
+* function :
+*           Draw all the thieves in our graphical window
+* 
+* param :
+*           AllThieves *myThieves : A pointer on our table containing all the thieves
+*
+* return :
+*           void
+*/
+void drawAllThieves(AllThieves *myThieves)
+{
+    unsigned short int index;
+
+    epaisseurDeTrait(3);
+
+	for(index = 0; index < myThieves->lenght; index++)
+	{
+        couleurCourante(255, 0, 0);
+        point(myThieves->thieves[index].x, myThieves->thieves[index].y);
+	}
+}
+
+/*
+* function :
+*           Draw all the money in our graphical window
+* 
+* param :
+*           AllMoney *myMoney : A pointer on our table containing all the money
+*
+* return :
+*           void
+*/
+void drawAllMoney(AllMoney *myMoney)
+{
+    unsigned short int index;
+
+    epaisseurDeTrait(3);
+
+	for(index = 0; index < myMoney->lenght; index++)
+	{
+        couleurCourante(255, 255, 0);
+        point(myMoney->money[index].x, myMoney->money[index].y);
 	}
 }

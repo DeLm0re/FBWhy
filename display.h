@@ -3,6 +3,7 @@
 */
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <math.h>
 #include <time.h>
 
@@ -63,3 +64,27 @@ void drawCircle(unsigned short int xCenter, unsigned short int yCenter, float ra
 *           void
 */
 void drawAllLights(AllLights *myLights);
+
+/*
+* function :
+*           Draw all the thieves in our graphical window
+* 
+* param :
+*           AllThieves *myThieves : A pointer on our table containing all the thieves
+*
+* return :
+*           void
+*/
+void drawAllThieves(AllThieves *myThieves);
+
+/*
+* function :
+*           Draw all the money in our graphical window
+* 
+* param :
+*           AllMoney *myMoney : A pointer on our table containing all the money
+*
+* return :
+*           void
+*/
+void drawAllMoney(AllMoney *myMoney);
