@@ -24,7 +24,15 @@
 //Definition of the number of lights
 #define NUMBER_OF_LIGHTS (5)
 
+//Definition of the number of thieves
+#define NUMBER_OF_THIEVES (3)
+
+//Definition of the number of money
+#define NUMBER_OF_MONEY (3)
+
 AllLights *myLights = NULL;
+AllThieves *myThieves = NULL;
+AllMoney *myMoney = NULL;
 
 int main(int argc, char *argv[])
 {
@@ -65,6 +73,9 @@ void gestionEvenement(EvenementGfx event)
 				effaceFenetre (0, 0, 0);
 				drawBorders();
 				myLights = createAllLights(NUMBER_OF_LIGHTS, largeurFenetre(), hauteurFenetre());
+				myThieves = createAllThieves(NUMBER_OF_THIEVES);
+				myMoney = createAllMoney(NUMBER_OF_MONEY);
+				positionElements(myLights, myThieves, myMoney, largeurFenetre(), hauteurFenetre());
 				etape++;
 			}
 
@@ -72,6 +83,8 @@ void gestionEvenement(EvenementGfx event)
 			{
 				effaceFenetre (0, 0, 0);
 				drawAllLights(myLights);
+				drawAllThieves(myThieves);
+				drawAllMoney(myMoney);
 				drawBorders();
 			}
 			break;

@@ -11,6 +11,9 @@
 #define MAXIMUM_LIGHT_RADIUS (100)
 #define MINIMUM_LIGHT_RADIUS (90)
 
+//Definition of the distance between the money and the thieves at the initialization
+#define DISTANCE_MONEY_THIEVES (20)
+
 //Type definition of Light
 typedef struct Light
 {
@@ -76,13 +79,11 @@ AllLights* createAllLights(unsigned short int lenght, unsigned short int windowW
 * 
 * param :
 *           unsigned short int lenght : The lenght of our table we want to allocate
-*           unisgned short int windowWidth : The width of our graphical window
-*           unsigned short int windowHeight : The height of our graphical window
 *
 * return :
 *           AllThieves* : A pointer on a table of "Thief"
 */
-AllThieves* createAllThieves(unsigned short int lenght, unsigned short int windowWidth, unsigned short int windowHeight);
+AllThieves* createAllThieves(unsigned short int lenght);
 
 /*
 * function :
@@ -90,13 +91,11 @@ AllThieves* createAllThieves(unsigned short int lenght, unsigned short int windo
 * 
 * param :
 *           unsigned short int lenght : The lenght of our table we want to allocate
-*           unisgned short int windowWidth : The width of our graphical window
-*           unsigned short int windowHeight : The height of our graphical window
 *
 * return :
 *           AllMoney* : A pointer on a table of "Money"
 */
-AllMoney* createAllMoney(unsigned short int lenght, unsigned short int windowWidth, unsigned short int windowHeight);
+AllMoney* createAllMoney(unsigned short int lenght);
 
 /*
 * function :
@@ -181,4 +180,36 @@ float rescale(float value, float minValue, float maxValue, float newMin, float n
 * return :
 *           void
 */
-positionElements(AllLights *tableOfLights, AllThieves *tableOfThieves, AllMoney *tableOfMoney, unsigned short int windowWidth, unsigned short int windowHeight);
+void positionElements(AllLights *tableOfLights, AllThieves *tableOfThieves, AllMoney *tableOfMoney, unsigned short int windowWidth, unsigned short int windowHeight);
+
+/*
+* function :
+*           Tell if a thief is to near or under a light
+* 
+* param :
+*           AllThieves *tableOfThieves : A pointer on a table of "Thieves"
+*           unsigned short int indexThieves : The index in the table of "Thieves" of our thief we want to analyze
+*           AllLights *tableOfLights : A pointer on a table of "Lights"
+*
+* return :
+*           boolean
+*           - True, the thief is to near or under a light
+*           - False, the thief have a good position
+*/
+bool thiefUnderLights(AllThieves *tableOfThieves, unsigned short int indexThieves, AllLights *tableOfLights);
+
+/*
+* function :
+*           Tell if a money is to near with a thief
+* 
+* param :
+*           AllMoney *tableOfMoney : A pointer on a table of "Money"
+*           unsigned short int indexMoney : The index in the table of "Money" of our thief we want to analyze
+*           AllThieves *tableOfThieves : A pointer on a table of "Thieves"
+*
+* return :
+*           boolean
+*           - True, the money is to near with a thief
+*           - False, the money have a good position
+*/
+bool moneyOnThieves(AllMoney *tableOfMoney, unsigned short int indexMoney, AllThieves *tableOfThieves);
