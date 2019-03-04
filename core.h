@@ -3,6 +3,7 @@
 */
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <math.h>
 #include <time.h>
 
@@ -163,3 +164,21 @@ void moveAllLights(AllLights *tableOfLights, unsigned short int windowWidth, uns
 *           void
 */
 float rescale(float value, float minValue, float maxValue, float newMin, float newMax);
+
+/*
+* function :
+*           Calcul all the positions of our elements
+*           - Thieves can not be under lights, because they will "die" instantly
+*           - Money can not be near thieves, because it's to easy for the learning
+* 
+* param :
+*           AllLights *tableOfLights : A pointer on a table of "Light"
+*           AllThieves *tableOfThieves : A pointer on a table of "Thieves"
+*           AllMoney *tableOfMoney : A pointer on a table of "Money"
+*           unsigned short int windowWidth : The width of our graphical window
+*           unsigned short int windowheight : The height of our graphical window
+*
+* return :
+*           void
+*/
+positionElements(AllLights *tableOfLights, AllThieves *tableOfThieves, AllMoney *tableOfMoney, unsigned short int windowWidth, unsigned short int windowHeight);

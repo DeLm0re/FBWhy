@@ -77,9 +77,10 @@ AllThieves* createAllThieves(unsigned short int lenght, unsigned short int windo
 
     for(index = 0; index < tableOfThieves->lenght; index++)
     {
-        tableOfThieves->thieves[index].x = rand() % ((windowWidth-10) - 10 + 1) + 10;
-        tableOfThieves->thieves[index].y = rand() % ((windowHeight-10) -10 + 1) + 10;
-        //Verification x,y > light(x,y) + min_radius/2
+        //tableOfThieves->thieves[index].x = rand() % ((windowWidth-10) - 10 + 1) + 10;
+        //tableOfThieves->thieves[index].y = rand() % ((windowHeight-10) -10 + 1) + 10;
+        tableOfThieves->thieves[index].x = 0;
+        tableOfThieves->thieves[index].y = 0;
     }
 
     return(tableOfThieves);
@@ -109,9 +110,10 @@ AllMoney* createAllMoney(unsigned short int lenght, unsigned short int windowWid
 
     for(index = 0; index < tableOfMoney->lenght; index++)
     {
-        tableOfMoney->money[index].x = rand() % ((windowWidth-10) - 10 + 1) + 10;
-        tableOfMoney->money[index].y = rand() % ((windowHeight-10) -10 + 1) + 10;
-        //Verification x,y =/= thief(x,y) to add
+        //tableOfMoney->money[index].x = rand() % ((windowWidth-10) - 10 + 1) + 10;
+        //tableOfMoney->money[index].y = rand() % ((windowHeight-10) -10 + 1) + 10;
+        tableOfMoney->money[index].x = 0;
+        tableOfMoney->money[index].y = 0;
     }
 
     return(tableOfMoney);
@@ -237,3 +239,46 @@ float rescale(float value, float minValue, float maxValue, float newMin, float n
 
 	return(newMin + newValue * (newMax - newMin));
 }
+
+/*
+* function :
+*           Calcul all the positions of our elements
+*           - Thieves can not be under lights, because they will "die" instantly
+*           - Money can not be near thieves, because it's to easy for the learning
+* 
+* param :
+*           AllLights *tableOfLights : A pointer on a table of "Light"
+*           AllThieves *tableOfThieves : A pointer on a table of "Thieves"
+*           AllMoney *tableOfMoney : A pointer on a table of "Money"
+*           unsigned short int windowWidth : The width of our graphical window
+*           unsigned short int windowheight : The height of our graphical window
+*
+* return :
+*           void
+*/
+positionElements(AllLights *tableOfLights, AllThieves *tableOfThieves, AllMoney *tableOfMoney, unsigned short int windowWidth, unsigned short int windowHeight)
+{
+    int indexThieves;
+    int indexMoney;
+
+    for(indexThieves = 0; indexThieves < tableOfThieves->lenght; indexThieves++)
+    {
+        do
+        {
+            tableOfThieves->thieves[indexThieves].x = rand() % ((windowWidth-10) -10 + 1) + 10;
+            tableOfThieves->thieves[indexThieves].y = rand() % ((windowHeight-10) -10 + 1) + 10;
+
+        }while(thievesUnderLights(tableOfThieves, indexThieves, tableOfLights) == 1);
+    }
+
+    for(indexMoney = 0; indexMoney < tableOfThieves->lenght; indexMoney++)
+    {
+        do
+        {
+            tableOfMoney->money[indexMoney].x = rand() % ((windowWidth-10) -10 + 1) + 10;
+            tableOfMoney->money[indexMoney].y = rand() % ((windowHeight-10) -10 + 1) + 10;
+
+        }while(moneyOnThieves(tableOfMoney, indexMoney, tableOfThieves) == 1);
+    }
+}
+
