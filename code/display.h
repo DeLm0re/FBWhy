@@ -24,8 +24,8 @@
 #define NUMBER_SECTORS (16)
 
 //Default width and height
-#define WindowWidth 800
-#define WindowHeight 600
+#define WindowWidth 900
+#define WindowHeight 900
 
 /*
 * function :

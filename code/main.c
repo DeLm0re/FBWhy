@@ -22,13 +22,13 @@
 #define FRAME_RATE_DEBUG (10000)
 
 //Definition of the number of lights
-#define NUMBER_OF_LIGHTS (10)
+#define NUMBER_OF_LIGHTS (15)
 
 //Definition of the number of thieves
-#define NUMBER_OF_THIEVES (5)
+#define NUMBER_OF_THIEVES (7)
 
 //Definition of the number of money
-#define NUMBER_OF_MONEY (5)
+#define NUMBER_OF_MONEY (7)
 
 AllLights *myLights = NULL;
 AllThieves *myThieves = NULL;
@@ -54,8 +54,8 @@ void gestionEvenement(EvenementGfx event)
 	{
 		case Initialisation:
 			etape = 0;
-			demandeTemporisation(FRAME_RATE);
-			//demandeTemporisation(FRAME_RATE_DEBUG);
+			//demandeTemporisation(FRAME_RATE);
+			demandeTemporisation(FRAME_RATE_DEBUG);
 			break;
 
 		case Temporisation:
@@ -85,7 +85,6 @@ void gestionEvenement(EvenementGfx event)
 				drawAllLights(myLights);
 				drawAllThieves(myThieves);
 				drawAllMoney(myMoney);
-				drawImagePixel("../images/eyes.bmp", 20, 20);
 				drawBorders();
 			}
 			break;

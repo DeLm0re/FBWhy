@@ -1,3 +1,4 @@
+//Les fichiers d'en-tête
 #include "image.h"
 
 /* @function
@@ -140,7 +141,7 @@ imagePixel* conversionDonneesImageRGB(DonneesImageRGB *pImageRGB)
 	retour->hauteur = hauteur;
 	
 	//Copie des valeurs
-	for(i = (hauteur-1); i >= 0; i--)
+	for(i = 0; i < hauteur; i++)
 	{
 		for(j = 0; j < largeur; j++)
 		{

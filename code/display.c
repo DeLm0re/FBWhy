@@ -119,21 +119,21 @@ void drawImagePixel(char *name, unsigned short int x, unsigned short int y)
     {
         imagePixel *imagePx = conversionDonneesImageRGB(imageRGB);
 
-        for(i = 0; i < imageRGB->hauteurImage; i++)
+        for(i = 0; i < imagePx->hauteur; i++)
         {
-            for(j = 0; j < imageRGB->largeurImage; j++)
+            for(j = 0; j < imagePx->largeur; j++)
             {
-                printf(" %d %d %d \n", imagePx->pixels[j][i].rouge, imagePx->pixels[j][i].bleu, imagePx->pixels[j][i].vert);
-                if( (imagePx->pixels[j][i].rouge != 255) && (imagePx->pixels[j][i].bleu != 255) && (imagePx->pixels[j][i].vert != 0) )
+                if( (imagePx->pixels[j][i].rouge == 255) && (imagePx->pixels[j][i].bleu == 255) && (imagePx->pixels[j][i].vert == 0) )
                 {
-                    puts("ok rgb");
+                    continue;
+                }
+                else
+                {
                     couleurCourante(imagePx->pixels[j][i].rouge, imagePx->pixels[j][i].vert, imagePx->pixels[j][i].bleu);
-
-                    point(x+i, y+j);
+                    point(x - (imagePx->hauteur/2) + i, y - (imagePx->largeur/2) + j);
                 }
             }
         }
-
         libereImagePixel(&imagePx);
     }
 }
@@ -152,12 +152,9 @@ void drawAllThieves(AllThieves *myThieves)
 {
     unsigned short int index;
 
-    epaisseurDeTrait(3);
-
 	for(index = 0; index < myThieves->lenght; index++)
 	{
-        couleurCourante(255, 0, 0);
-        point(myThieves->thieves[index].x, myThieves->thieves[index].y);
+        drawImagePixel("../images/eyes.bmp", myThieves->thieves[index].x, myThieves->thieves[index].y);
 	}
 }
 
@@ -175,11 +172,8 @@ void drawAllMoney(AllMoney *myMoney)
 {
     unsigned short int index;
 
-    epaisseurDeTrait(3);
-
 	for(index = 0; index < myMoney->lenght; index++)
 	{
-        couleurCourante(255, 255, 0);
-        point(myMoney->money[index].x, myMoney->money[index].y);
+        drawImagePixel("../images/money.bmp", myMoney->money[index].x, myMoney->money[index].y);
 	}
 }
