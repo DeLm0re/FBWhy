@@ -6,7 +6,7 @@ CFLAGS = -std=c99 -m64 -O2 $(WARNING_FLAGS)
 CC = gcc
 CLIBS = -lm -lglut -lGL -lX11
 
-main: main.o GfxLib.o core.o display.o
+main: main.o GfxLib.o BmpLib.o OutilsLib.o core.o display.o
 	@echo "Links edition :"
 	gcc $(CFLAGS) $^ -o $@ $(CLIBS)
 	rm -f *~ *.o
@@ -40,6 +40,16 @@ ErreurLib.o: ErreurLib.c ErreurLib.h
 GfxLib.o: GfxLib.c GfxLib.h ESLib.h
 	@echo "Compilation GfxLib :"
 	gcc -Wall -c $< -I/usr/include/GL 
+	@echo ""
+
+BmpLib.o: BmpLib.c BmpLib.h OutilsLib.h
+	@echo "Compilation BmpLib :"
+	gcc -Wall -c $<
+	@echo ""
+
+OutilsLib.o: OutilsLib.c OutilsLib.h
+	@echo "Compilation OutilsLib :"
+	gcc -Wall -c $<
 	@echo ""
 
 clean:
