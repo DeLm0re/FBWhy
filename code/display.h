@@ -67,6 +67,20 @@ void drawAllLights(AllLights *myLights);
 
 /*
 * function :
+*           Draw an image with type imagePixel on our graphical window
+* 
+* param :
+*           char *name : Relative way to the image we want to draw
+*           unsigned short int x : The x cord of the image in our graphical window
+*           unsigned short int y : The y cord of the image in our graphical window
+*
+* return :
+*           void
+*/
+void drawImagePixel(char *name, unsigned short int x, unsigned short int y);
+
+/*
+* function :
 *           Draw all the thieves in our graphical window
 * 
 * param :

@@ -85,6 +85,7 @@ void gestionEvenement(EvenementGfx event)
 				drawAllLights(myLights);
 				drawAllThieves(myThieves);
 				drawAllMoney(myMoney);
+				drawImagePixel("../images/eyes.bmp", 20, 20);
 				drawBorders();
 			}
 			break;
