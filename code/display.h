@@ -13,7 +13,7 @@
 //To use the drawing functions
 #include "GfxLib.h"
 //To use the prototypes in the core
-#include "core.h"
+#include "image.h"
 
 //Definition of PI
 #ifndef M_PI
