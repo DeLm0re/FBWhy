@@ -92,6 +92,54 @@ void drawAllLights(AllLights *myLights)
 
 /*
 * function :
+*           Draw an image with type imagePixel on our graphical window
+* 
+* param :
+*           char *name : Relative way to the image we want to draw
+*           unsigned short int x : The x cord of the image in our graphical window
+*           unsigned short int y : The y cord of the image in our graphical window
+*
+* return :
+*           void
+*/
+void drawImagePixel(char *name, unsigned short int x, unsigned short int y)
+{
+    int i;
+    int j;
+
+    epaisseurDeTrait(1);
+
+    DonneesImageRGB *imageRGB = lisBMPRGB(name);
+
+    if(imageRGB == NULL)
+    {
+        puts("ERROR : Impossible to read the image used to display the thieves.");
+    }
+    else
+    {
+        imagePixel *imagePx = conversionDonneesImageRGB(imageRGB);
+
+        for(i = 0; i < imagePx->hauteur; i++)
+        {
+            for(j = 0; j < imagePx->largeur; j++)
+            {
+                if( (imagePx->pixels[j][i].rouge == 255) && (imagePx->pixels[j][i].bleu == 255) && (imagePx->pixels[j][i].vert == 0) )
+                {
+                    continue;
+                }
+                else
+                {
+                    couleurCourante(imagePx->pixels[j][i].rouge, imagePx->pixels[j][i].vert, imagePx->pixels[j][i].bleu);
+                    point(x - (imagePx->hauteur/2) + i, y - (imagePx->largeur/2) + j);
+                }
+            }
+        }
+        libereImagePixel(&imagePx);
+    }
+}
+
+/*
+* function :
 *           Draw all the thieves in our graphical window
 * 
 * param :
@@ -104,12 +152,9 @@ void drawAllThieves(AllThieves *myThieves)
 {
     unsigned short int index;
 
-    epaisseurDeTrait(3);
-
 	for(index = 0; index < myThieves->lenght; index++)
 	{
-        couleurCourante(255, 0, 0);
-        point(myThieves->thieves[index].x, myThieves->thieves[index].y);
+        drawImagePixel("../images/eyes.bmp", myThieves->thieves[index].x, myThieves->thieves[index].y);
 	}
 }
 
@@ -127,11 +172,8 @@ void drawAllMoney(AllMoney *myMoney)
 {
     unsigned short int index;
 
-    epaisseurDeTrait(3);
-
 	for(index = 0; index < myMoney->lenght; index++)
 	{
-        couleurCourante(255, 255, 0);
-        point(myMoney->money[index].x, myMoney->money[index].y);
+        drawImagePixel("../images/money.bmp", myMoney->money[index].x, myMoney->money[index].y);
 	}
 }

@@ -13,7 +13,7 @@
 //To use the drawing functions
 #include "GfxLib.h"
 //To use the prototypes in the core
-#include "core.h"
+#include "image.h"
 
 //Definition of PI
 #ifndef M_PI
@@ -24,8 +24,8 @@
 #define NUMBER_SECTORS (16)
 
 //Default width and height
-#define WindowWidth 800
-#define WindowHeight 600
+#define WindowWidth 900
+#define WindowHeight 900
 
 /*
 * function :
@@ -64,6 +64,20 @@ void drawCircle(unsigned short int xCenter, unsigned short int yCenter, float ra
 *           void
 */
 void drawAllLights(AllLights *myLights);
+
+/*
+* function :
+*           Draw an image with type imagePixel on our graphical window
+* 
+* param :
+*           char *name : Relative way to the image we want to draw
+*           unsigned short int x : The x cord of the image in our graphical window
+*           unsigned short int y : The y cord of the image in our graphical window
+*
+* return :
+*           void
+*/
+void drawImagePixel(char *name, unsigned short int x, unsigned short int y);
 
 /*
 * function :
