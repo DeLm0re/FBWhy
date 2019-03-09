@@ -14,6 +14,10 @@
 //Definition of the distance between the money and the thieves at the initialization
 #define DISTANCE_MONEY_THIEVES (200)
 
+#ifndef M_PI
+#define M_PI 3.141592654
+#endif
+
 //Type definition of Light
 typedef struct Light
 {
@@ -213,3 +217,15 @@ bool thiefUnderLights(AllThieves *tableOfThieves, unsigned short int indexThieve
 *           - False, the money have a good position
 */
 bool moneyOnThieves(AllMoney *tableOfMoney, unsigned short int indexMoney, AllThieves *tableOfThieves);
+
+/*
+* function :
+*           Calcul a degree in radian
+* 
+* param :
+*           unisgned short int degree : The degree we want to transform in radian
+*
+* return :
+*           double : The degree in radian
+*/
+double degreeToRadian(unsigned short int degree);

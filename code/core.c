@@ -362,3 +362,18 @@ bool moneyOnThieves(AllMoney *tableOfMoney, unsigned short int indexMoney, AllTh
     
     return(true);
 }
+
+/*
+* function :
+*           Calcul a degree in radian
+* 
+* param :
+*           unisgned short int degree : The degree we want to transform in radian
+*
+* return :
+*           double : The degree in radian
+*/
+double degreeToRadian(unsigned short int degree)
+{
+	return degree*M_PI/180.;
+}
