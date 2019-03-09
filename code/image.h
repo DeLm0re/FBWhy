@@ -9,7 +9,7 @@
 #include "BmpLib.h"
 //Cet include est nécessaire pour le graphique
 #include "GfxLib.h"
-#include "core.h"
+#include "learning.h"
 
 //Définition du type struct pixel
 typedef struct pixel {
