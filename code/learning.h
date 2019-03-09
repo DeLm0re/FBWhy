@@ -12,4 +12,3 @@
 */
 //To use the prototypes in the core
 #include "core.h"
-

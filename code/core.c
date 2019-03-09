@@ -75,12 +75,46 @@ AllThieves* createAllThieves(unsigned short int lenght)
 
     for(index = 0; index < tableOfThieves->lenght; index++)
     {
-        tableOfThieves->thieves[index].x = 0;
-        tableOfThieves->thieves[index].y = 0;
+        tableOfThieves->thieves[index].currentX = 0;
+        tableOfThieves->thieves[index].currentY = 0;
+        tableOfThieves->thieves[index].previousX = 0;
+        tableOfThieves->thieves[index].previousY = 0;
+        tableOfThieves->thieves[index].currentState = Stable;
+        createWeightsTable(tableOfThieves->thieves[index].weights);
     }
 
     return(tableOfThieves);
 }
+
+/*
+* function :
+*           Allocate and initialize the memory for a weights table
+* 
+* param :
+*           WeightsTable **oneWeightsTable : Double pointer to the weights table
+*
+* return :
+*           void
+*/
+void createWeightsTable(WeightsTable **oneWeightsTable)
+{
+    State y;
+    Action x;
+
+    oneWeightsTable = (float**)malloc(sizeof(float) * 9);
+
+    for(y = GoingUp; y <= Stable; ++y)
+    {
+        oneWeightsTable[y] = (float*)malloc(sizeof(float));
+    }
+
+    for (y = GoingUp; y <= Stable; ++y)
+	{
+		for (x = GoUp; x <= NoActivity; ++x)
+			oneWeightsTable[y][x] = 1.f;
+	}
+}
+
 
 /*
 * function :
@@ -126,7 +160,7 @@ void deleteAllLights(AllLights **tableOfLights)
     free((*tableOfLights)->lights);
     free(*tableOfLights);
 
-    *tableOfLights = NULL;
+    tableOfLights = NULL;
 }
 
 /*
@@ -141,10 +175,39 @@ void deleteAllLights(AllLights **tableOfLights)
 */
 void deleteAllThieves(AllThieves **tableOfThieves)
 {
+    int indexThieves;
+
+    for(indexThieves = 0; indexThieves < (*tableOfThieves)->lenght; indexThieves++)
+    {
+        deleteWeightsTable( &( (*tableOfThieves)->thieves[indexThieves].weights ) );
+    }
     free((*tableOfThieves)->thieves);
     free(*tableOfThieves);
 
-    *tableOfThieves = NULL;
+    tableOfThieves = NULL;
+}
+
+/*
+* function :
+*           Free the memory used by a weights table
+* 
+* param :
+*           WeightsTable ***oneWeightsTable : Double pointer on a weights table
+*
+* return :
+*           void
+*/
+void deleteWeightsTable(WeightsTable ***oneWeightsTable)
+{
+    State y;
+
+    for(y = GoingUp; y <= Stable; ++y)
+    {
+        free((*oneWeightsTable)[y]);
+    }
+
+    free(*oneWeightsTable);
+    oneWeightsTable = NULL;
 }
 
 /*
@@ -162,7 +225,7 @@ void deleteAllMoney(AllMoney **tableOfMoney)
     free((*tableOfMoney)->money);
     free(*tableOfMoney);
 
-    *tableOfMoney = NULL;
+    tableOfMoney = NULL;
 }
 
 /*
@@ -257,8 +320,10 @@ void positionElements(AllLights *tableOfLights, AllThieves *tableOfThieves, AllM
     {
         do
         {
-            tableOfThieves->thieves[indexThieves].x = rand() % ((windowWidth-10) -10 + 1) + 10;
-            tableOfThieves->thieves[indexThieves].y = rand() % ((windowHeight-10) -10 + 1) + 10;
+            tableOfThieves->thieves[indexThieves].currentX = rand() % ((windowWidth-10) -10 + 1) + 10;
+            tableOfThieves->thieves[indexThieves].currentY = rand() % ((windowHeight-10) -10 + 1) + 10;
+            tableOfThieves->thieves[indexThieves].previousX = tableOfThieves->thieves[indexThieves].currentX;
+            tableOfThieves->thieves[indexThieves].previousY = tableOfThieves->thieves[indexThieves].currentY;
 
         }while(thiefUnderLights(tableOfThieves, indexThieves, tableOfLights) == true);
     }
@@ -299,11 +364,11 @@ bool thiefUnderLights(AllThieves *tableOfThieves, unsigned short int indexThieve
 
     for(indexLights = 0; indexLights < tableOfLights->lenght; indexLights++)
     {
-        distance = (tableOfThieves->thieves[indexThieves].x - tableOfLights->lights[indexLights].x)
-                    *(tableOfThieves->thieves[indexThieves].x - tableOfLights->lights[indexLights].x)
+        distance = (tableOfThieves->thieves[indexThieves].currentX - tableOfLights->lights[indexLights].x)
+                    *(tableOfThieves->thieves[indexThieves].currentX - tableOfLights->lights[indexLights].x)
                     + 
-                    (tableOfThieves->thieves[indexThieves].y - tableOfLights->lights[indexLights].y)
-                    *(tableOfThieves->thieves[indexThieves].y - tableOfLights->lights[indexLights].y);
+                    (tableOfThieves->thieves[indexThieves].currentY - tableOfLights->lights[indexLights].y)
+                    *(tableOfThieves->thieves[indexThieves].currentY - tableOfLights->lights[indexLights].y);
 
         if(distance > radiusPow)
         {
@@ -344,10 +409,10 @@ bool moneyOnThieves(AllMoney *tableOfMoney, unsigned short int indexMoney, AllTh
 
     for(indexThieves = 0; indexThieves  < tableOfThieves ->lenght; indexThieves ++)
     {
-        distance = (tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[indexThieves].x)
-                    *(tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[indexThieves].x)
-                    + (tableOfMoney->money[indexMoney].y - tableOfThieves->thieves[indexThieves].y)
-                    *(tableOfMoney->money[indexMoney].y - tableOfThieves->thieves[indexThieves].y);
+        distance = (tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[indexThieves].currentX)
+                    *(tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[indexThieves].currentX)
+                    + (tableOfMoney->money[indexMoney].y - tableOfThieves->thieves[indexThieves].currentY)
+                    *(tableOfMoney->money[indexMoney].y - tableOfThieves->thieves[indexThieves].currentY);
 
         if(distance > distancePow)
         {

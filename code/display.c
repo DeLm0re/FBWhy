@@ -154,7 +154,7 @@ void drawAllThieves(AllThieves *myThieves)
 
 	for(index = 0; index < myThieves->lenght; index++)
 	{
-        drawImagePixel("../images/eyes.bmp", myThieves->thieves[index].x, myThieves->thieves[index].y);
+        drawImagePixel("../images/eyes.bmp", myThieves->thieves[index].currentX, myThieves->thieves[index].currentY);
 	}
 }
 
