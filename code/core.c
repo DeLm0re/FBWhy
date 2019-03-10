@@ -101,17 +101,19 @@ void createWeightsTable(WeightsTable **oneWeightsTable)
     State y;
     Action x;
 
-    oneWeightsTable = (float**)malloc(sizeof(float) * 9);
+    oneWeightsTable = malloc(sizeof(*oneWeightsTable) * 9);
 
-    for(y = GoingUp; y <= Stable; ++y)
+    for(y = GoingUp; y <= Stable; y++)
     {
-        oneWeightsTable[y] = (float*)malloc(sizeof(float));
+        oneWeightsTable[y] = malloc(sizeof(**oneWeightsTable) * 9);
     }
 
-    for (y = GoingUp; y <= Stable; ++y)
+    for(y = GoingUp; y <= Stable; y++)
 	{
-		for (x = GoUp; x <= NoActivity; ++x)
+		for (x = GoUp; x <= NoActivity; x++)
+        {
 			oneWeightsTable[y][x] = 1.f;
+        }
 	}
 }
 
@@ -201,7 +203,7 @@ void deleteWeightsTable(WeightsTable ***oneWeightsTable)
 {
     State y;
 
-    for(y = GoingUp; y <= Stable; ++y)
+    for(y = GoingUp; y <= Stable; y++)
     {
         free((*oneWeightsTable)[y]);
     }

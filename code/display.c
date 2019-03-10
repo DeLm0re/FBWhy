@@ -177,3 +177,31 @@ void drawAllMoney(AllMoney *myMoney)
         drawImagePixel("../images/money.bmp", myMoney->money[index].x, myMoney->money[index].y);
 	}
 }
+
+/*
+* function :
+*           Printf all the weights table for a thief in console
+* 
+* param :
+*           AllMoney *tableOfThieves : A pointer on our table of "Thief"
+*           unisgned short int : Index on the thief containing the weights table we want to print
+*
+* return :
+*           void
+*/
+void printWeightsTable(AllThieves *tableOfThieves, unsigned short int index)
+{
+    State indexState;
+    Action indexAction;
+
+    printf("\n");
+    for(indexState = GoingUp; indexState <= Stable; indexState++)
+    {
+        for(indexAction = GoUp; indexAction <= NoActivity; indexAction++)
+        {
+            printf(" %f", tableOfThieves->thieves[index].weights[indexState][indexAction]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}

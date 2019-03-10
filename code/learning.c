@@ -101,12 +101,13 @@ Action chooseAction(AllThieves *tableOfThieves, unsigned short int index)
 
     Action actionToMake = GoUp;
 
-    puts("ok");
-
     for(indexAction = GoUpRight; indexAction <= NoActivity; ++indexAction)
     {
+        printf("Indexaction : %d \n", indexAction);
+
         if(tableOfThieves->thieves[index].weights[actualState][indexAction] > tableOfThieves->thieves[index].weights[actualState][actionToMake])
         {
+            puts("ok if");
             actionToMake = tableOfThieves->thieves[index].weights[actualState][indexAction];
         }
     }
