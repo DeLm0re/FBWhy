@@ -3,15 +3,21 @@
 
 void updateAllThieves(Automaton aAutomaton, AllThieves *tableOfThieves)
 {
-    puts("OKSK");
-
     unsigned short int indexThieves;
+
+    Action choosenAction;
 
     for(indexThieves = 0; indexThieves < tableOfThieves->lenght; indexThieves++)
     {
-        printf("IndexThieves : %d", indexThieves);
-        sleep(2);
-        update(aAutomaton, chooseAction(tableOfThieves, indexThieves), tableOfThieves, indexThieves);
+        printf("Index du voleur : %u \n", indexThieves);
+
+        printf("current state : %d \n", tableOfThieves->thieves[indexThieves].currentState);
+
+        choosenAction = chooseAction(tableOfThieves, indexThieves);
+
+        puts("ok choseaction");
+
+        update(aAutomaton, choosenAction, tableOfThieves, indexThieves);
     }
 }
 
@@ -89,16 +95,19 @@ void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, uns
 
 Action chooseAction(AllThieves *tableOfThieves, unsigned short int index)
 {
-    State currentState = tableOfThieves->thieves[index].currentState;
+    State actualState = tableOfThieves->thieves[index].currentState;
+
 	Action indexAction;
 
     Action actionToMake = GoUp;
 
+    puts("ok");
+
     for(indexAction = GoUpRight; indexAction <= NoActivity; ++indexAction)
     {
-        if(tableOfThieves->thieves[index].weights[currentState][indexAction] > tableOfThieves->thieves[index].weights[currentState][actionToMake])
+        if(tableOfThieves->thieves[index].weights[actualState][indexAction] > tableOfThieves->thieves[index].weights[actualState][actionToMake])
         {
-            actionToMake = tableOfThieves->thieves[index].weights[currentState][indexAction];
+            actionToMake = tableOfThieves->thieves[index].weights[actualState][indexAction];
         }
     }
 

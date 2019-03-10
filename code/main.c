@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include <time.h>
+#include <unistd.h>
 
 /*
 * Custom headers files :
@@ -34,6 +35,7 @@ AllLights *myLights = NULL;
 AllThieves *myThieves = NULL;
 AllMoney *myMoney = NULL;
 
+
 Automaton theAutomaton = {
 							{GoingUp, GoingUpRight, GoingUpRight, Stable, Stable, Stable, GoingUpLeft, GoingUpLeft, GoingUp},
 						  	{GoingUp, GoingUpRight, GoingRight, GoingRight, Stable, Stable, Stable, GoingUp, GoingUpRight},
@@ -45,6 +47,7 @@ Automaton theAutomaton = {
 							{GoingUp, GoingUp, Stable, Stable, Stable, GoingLeft, GoingLeft, GoingUpLeft, GoingUpLeft},
 							{GoingUp, GoingUpRight, GoingRight, GoingDownRight, GoingDown, GoingDownLeft, GoingLeft, GoingUpLeft, Stable}
 						};
+
 
 int main(int argc, char *argv[])
 {
@@ -74,8 +77,8 @@ void gestionEvenement(EvenementGfx event)
 			if(etape > 0)
 			{
 				moveAllLights(myLights, largeurFenetre(), hauteurFenetre());
+				updateAllThieves(theAutomaton, myThieves);
 			}
-			updateAllThieves(theAutomaton, myThieves);
 			rafraichisFenetre();
 			break;
 
@@ -108,6 +111,8 @@ void gestionEvenement(EvenementGfx event)
 				case 'Q':
 				case 'q':
 					deleteAllLights(&myLights);
+					deleteAllMoney(&myMoney);
+					deleteAllThieves(&myThieves);
 					termineBoucleEvenements();
 					break;
 
