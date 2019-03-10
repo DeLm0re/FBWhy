@@ -26,7 +26,7 @@
 #define NUMBER_OF_LIGHTS (15)
 
 //Definition of the number of thieves
-#define NUMBER_OF_THIEVES (7)
+#define NUMBER_OF_THIEVES (1)
 
 //Definition of the number of money
 #define NUMBER_OF_MONEY (7)

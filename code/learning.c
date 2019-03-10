@@ -11,6 +11,8 @@ void updateAllThieves(Automaton aAutomaton, AllThieves *tableOfThieves)
     {
         choosenAction = chooseAction(tableOfThieves, indexThieves);
 
+        printActionValue(choosenAction);
+        
         update(aAutomaton, choosenAction, tableOfThieves, indexThieves);
     }
 }
