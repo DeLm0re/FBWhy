@@ -89,6 +89,8 @@ void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, uns
     //Update weights table
 	updateUtility(newState, action, tableOfThieves, index);
 
+    //printWeightsTable(tableOfThieves, index);
+
     //Update current state that become the state we are now
 	tableOfThieves->thieves[index].currentState = newState;
 }

@@ -20,7 +20,7 @@
 
 //Definition of the frame rate in milliseconds (FPmS)
 #define FRAME_RATE (10)
-#define FRAME_RATE_DEBUG (10000)
+#define FRAME_RATE_DEBUG (2000)
 
 //Definition of the number of lights
 #define NUMBER_OF_LIGHTS (15)
@@ -69,8 +69,8 @@ void gestionEvenement(EvenementGfx event)
 	{
 		case Initialisation:
 			etape = 0;
-			demandeTemporisation(FRAME_RATE);
-			//demandeTemporisation(FRAME_RATE_DEBUG);
+			//demandeTemporisation(FRAME_RATE);
+			demandeTemporisation(FRAME_RATE_DEBUG);
 			break;
 
 		case Temporisation:
