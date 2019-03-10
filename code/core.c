@@ -294,7 +294,7 @@ void positionElements(AllLights *tableOfLights, AllThieves *tableOfThieves, AllM
         }while(thiefUnderLights(tableOfThieves, indexThieves, tableOfLights) == true);
     }
 
-    for(indexMoney = 0; indexMoney < tableOfThieves->lenght; indexMoney++)
+    for(indexMoney = 0; indexMoney < tableOfMoney->lenght; indexMoney++)
     {
         do
         {
