@@ -15,7 +15,7 @@
 #include "core.h"
 
 //Definition of the step modification
-#define STEP_MODIFICATION (0.f)
+#define STEP_MODIFICATION (.2f)
 
 //Definition of the factor value for the learning
 #define FACTOR (.25f)

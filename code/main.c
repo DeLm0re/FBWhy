@@ -69,8 +69,8 @@ void gestionEvenement(EvenementGfx event)
 	{
 		case Initialisation:
 			etape = 0;
-			//demandeTemporisation(FRAME_RATE);
-			demandeTemporisation(FRAME_RATE_DEBUG);
+			demandeTemporisation(FRAME_RATE);
+			//demandeTemporisation(FRAME_RATE_DEBUG);
 			break;
 
 		case Temporisation:

@@ -11,8 +11,6 @@ void updateAllThieves(Automaton aAutomaton, AllThieves *tableOfThieves)
     {
         choosenAction = chooseAction(tableOfThieves, indexThieves);
 
-        printActionValue(choosenAction);
-
         update(aAutomaton, choosenAction, tableOfThieves, indexThieves);
     }
 }
@@ -21,17 +19,12 @@ void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, uns
 {
     State currentState = tableOfThieves->thieves[index].currentState;
 
-    printStateValue(currentState);
-
 	State newState = aAutomaton[currentState][action];
-
-    printStateValue(newState);
 
     //Update cord
 	switch(newState)
 	{
 		case GoingUp:
-			tableOfThieves->thieves[index].previousX = tableOfThieves->thieves[index].currentX;
             tableOfThieves->thieves[index].previousY = tableOfThieves->thieves[index].currentY;
             tableOfThieves->thieves[index].currentY ++;
 			break;
@@ -45,7 +38,6 @@ void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, uns
 
         case GoingRight:
 			tableOfThieves->thieves[index].previousX = tableOfThieves->thieves[index].currentX;
-            tableOfThieves->thieves[index].previousY = tableOfThieves->thieves[index].currentY;
             tableOfThieves->thieves[index].currentX ++;
 			break;
 
@@ -57,7 +49,6 @@ void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, uns
 			break;
 
         case GoingDown:
-			tableOfThieves->thieves[index].previousX = tableOfThieves->thieves[index].currentX;
             tableOfThieves->thieves[index].previousY = tableOfThieves->thieves[index].currentY;
             tableOfThieves->thieves[index].currentY --;
 			break;
@@ -71,7 +62,6 @@ void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, uns
         
         case GoingLeft:
 			tableOfThieves->thieves[index].previousX = tableOfThieves->thieves[index].currentX;
-            tableOfThieves->thieves[index].previousY = tableOfThieves->thieves[index].currentY;
             tableOfThieves->thieves[index].currentX --;
 			break;
 
@@ -88,8 +78,6 @@ void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, uns
 
     //Update weights table
 	updateUtility(newState, action, tableOfThieves, index);
-
-    //printWeightsTable(tableOfThieves, index);
 
     //Update current state that become the state we are now
 	tableOfThieves->thieves[index].currentState = newState;
@@ -130,14 +118,14 @@ void updateUtility(State nextState, Action action, AllThieves *tableOfThieves, u
         }
     }
 
-	tableOfThieves->thieves[index].weights[currentState][action] = 
-                (1.f-STEP_MODIFICATION)*tableOfThieves->thieves[index].weights[currentState][action]
-                +STEP_MODIFICATION*(reward(tableOfThieves, index)+FACTOR*maxWeight);
+	tableOfThieves->thieves[index].weights[currentState][action] =
+                (1.f - STEP_MODIFICATION) * tableOfThieves->thieves[index].weights[currentState][action]
+                + STEP_MODIFICATION * (reward(tableOfThieves, index)+FACTOR*maxWeight);
 }
 
 float reward(AllThieves *tableOfThieves, unsigned short int index)
 {
-	if(tableOfThieves->thieves[index].currentX > tableOfThieves->thieves[index].previousX)
+	if(tableOfThieves->thieves[index].currentY > tableOfThieves->thieves[index].previousY)
     {
         return(.5f);
     }
