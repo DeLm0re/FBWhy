@@ -23,10 +23,6 @@
 //Definition of the number of sectors we used to draw a circle
 #define NUMBER_SECTORS (16)
 
-//Default width and height
-#define WindowWidth 900
-#define WindowHeight 900
-
 /*
 * function :
 *           Draw the borders in our graphical window

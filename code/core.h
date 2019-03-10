@@ -18,6 +18,10 @@
 #define M_PI 3.141592654
 #endif
 
+//Default width and height
+#define WindowWidth 900
+#define WindowHeight 900
+
 //Type definition of all the state a thief can have
 typedef enum {GoingUp = 0, GoingUpRight = 1, GoingRight = 2, GoingDownRight = 3, GoingDown = 4, 
                     GoingDownLeft = 5, GoingLeft = 6, GoingUpLeft = 7, Stable = 8} State;

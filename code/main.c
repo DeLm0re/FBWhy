@@ -75,6 +75,7 @@ void gestionEvenement(EvenementGfx event)
 			{
 				moveAllLights(myLights, largeurFenetre(), hauteurFenetre());
 			}
+			updateAllThieves(theAutomaton, myThieves);
 			rafraichisFenetre();
 			break;
 
