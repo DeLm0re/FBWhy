@@ -205,3 +205,107 @@ void printWeightsTable(AllThieves *tableOfThieves, unsigned short int index)
     }
     printf("\n");
 }
+
+/*
+* function :
+*           Printf all the value of an enum State
+* 
+* param :
+*           State aStateEnum : The enum State we want to print the value
+*
+* return :
+*           void
+*/
+void printStateValue(State aStateEnum)
+{
+    switch (aStateEnum)
+    {
+        case GoingUp:
+			printf("GoingUp\n");
+			break;
+
+        case GoingUpRight:
+			printf("GoingUpRight\n");
+			break;
+
+        case GoingRight:
+			printf("GoingRight\n");
+			break;
+
+		case GoingDownRight:
+			printf("GoingDownRight\n");
+			break;
+
+        case GoingDown:
+			printf("GoingDown\n");
+			break;
+
+        case GoingDownLeft:
+			printf("GoingDownLeft\n");
+			break;
+        
+        case GoingLeft:
+			printf("GoingLeft\n");
+			break;
+
+        case GoingUpLeft:
+			printf("GoingUpLeft\n");
+			break;
+
+        case Stable:
+            printf("Stable\n");
+			break;
+    }
+}
+
+/*
+* function :
+*           Printf all the value of an enum Action
+* 
+* param :
+*           Action anActionEnum : The enum Action we want to print the value
+*
+* return :
+*           void
+*/
+void printActionValue(State anActionEnum)
+{
+    switch (anActionEnum)
+    {
+        case GoUp:
+			printf("GoUp\n");
+			break;
+
+        case GoUpRight:
+			printf("GoUpRight\n");
+			break;
+
+        case GoRight:
+			printf("GoRight\n");
+			break;
+
+		case GoDownRight:
+			printf("GoDownRight\n");
+			break;
+
+        case GoDown:
+			printf("GoDown\n");
+			break;
+
+        case GoDownLeft:
+			printf("GoDownLeft\n");
+			break;
+        
+        case GoLeft:
+			printf("GoLeft\n");
+			break;
+
+        case GoUpLeft:
+			printf("GoUpLeft\n");
+			break;
+
+        case NoActivity:
+            printf("NoActivity\n");
+			break;
+    }
+}

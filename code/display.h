@@ -111,3 +111,27 @@ void drawAllMoney(AllMoney *myMoney);
 *           void
 */
 void printWeightsTable(AllThieves *tableOfThieves, unsigned short int index);
+
+/*
+* function :
+*           Printf all the value of an enum State
+* 
+* param :
+*           State aStateEnum : The enum State we want to print the value
+*
+* return :
+*           void
+*/
+void printStateValue(State aStateEnum);
+
+/*
+* function :
+*           Printf all the value of an enum Action
+* 
+* param :
+*           Action anActionEnum : The enum Action we want to print the value
+*
+* return :
+*           void
+*/
+void printActionValue(State anActionEnum);
