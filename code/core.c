@@ -75,12 +75,41 @@ AllThieves* createAllThieves(unsigned short int lenght)
 
     for(index = 0; index < tableOfThieves->lenght; index++)
     {
-        tableOfThieves->thieves[index].x = 0;
-        tableOfThieves->thieves[index].y = 0;
+        tableOfThieves->thieves[index].currentX = 0;
+        tableOfThieves->thieves[index].currentY = 0;
+        tableOfThieves->thieves[index].previousX = 0;
+        tableOfThieves->thieves[index].previousY = 0;
+        tableOfThieves->thieves[index].currentState = Stable;
+        createWeightsTable(tableOfThieves->thieves[index].weights);
     }
 
     return(tableOfThieves);
 }
+
+/*
+* function :
+*           Initialize the memory for a weights table
+* 
+* param :
+*           WeightsTable **oneWeightsTable : Double pointer to the weights table
+*
+* return :
+*           void
+*/
+void createWeightsTable(WeightsTable oneWeightsTable)
+{
+    State y;
+    Action x;
+    
+    for(y = GoingUp; y <= Stable; y++)
+	{
+		for (x = GoUp; x <= NoActivity; x++)
+        {
+			oneWeightsTable[y][x] = 1.f;
+        }
+	}
+}
+
 
 /*
 * function :
@@ -126,7 +155,7 @@ void deleteAllLights(AllLights **tableOfLights)
     free((*tableOfLights)->lights);
     free(*tableOfLights);
 
-    *tableOfLights = NULL;
+    tableOfLights = NULL;
 }
 
 /*
@@ -144,7 +173,7 @@ void deleteAllThieves(AllThieves **tableOfThieves)
     free((*tableOfThieves)->thieves);
     free(*tableOfThieves);
 
-    *tableOfThieves = NULL;
+    tableOfThieves = NULL;
 }
 
 /*
@@ -162,7 +191,7 @@ void deleteAllMoney(AllMoney **tableOfMoney)
     free((*tableOfMoney)->money);
     free(*tableOfMoney);
 
-    *tableOfMoney = NULL;
+    tableOfMoney = NULL;
 }
 
 /*
@@ -257,8 +286,10 @@ void positionElements(AllLights *tableOfLights, AllThieves *tableOfThieves, AllM
     {
         do
         {
-            tableOfThieves->thieves[indexThieves].x = rand() % ((windowWidth-10) -10 + 1) + 10;
-            tableOfThieves->thieves[indexThieves].y = rand() % ((windowHeight-10) -10 + 1) + 10;
+            tableOfThieves->thieves[indexThieves].currentX = rand() % ((windowWidth-10) -10 + 1) + 10;
+            tableOfThieves->thieves[indexThieves].currentY = rand() % ((windowHeight-10) -10 + 1) + 10;
+            tableOfThieves->thieves[indexThieves].previousX = tableOfThieves->thieves[indexThieves].currentX;
+            tableOfThieves->thieves[indexThieves].previousY = tableOfThieves->thieves[indexThieves].currentY;
 
         }while(thiefUnderLights(tableOfThieves, indexThieves, tableOfLights) == true);
     }
@@ -299,11 +330,11 @@ bool thiefUnderLights(AllThieves *tableOfThieves, unsigned short int indexThieve
 
     for(indexLights = 0; indexLights < tableOfLights->lenght; indexLights++)
     {
-        distance = (tableOfThieves->thieves[indexThieves].x - tableOfLights->lights[indexLights].x)
-                    *(tableOfThieves->thieves[indexThieves].x - tableOfLights->lights[indexLights].x)
+        distance = (tableOfThieves->thieves[indexThieves].currentX - tableOfLights->lights[indexLights].x)
+                    *(tableOfThieves->thieves[indexThieves].currentX - tableOfLights->lights[indexLights].x)
                     + 
-                    (tableOfThieves->thieves[indexThieves].y - tableOfLights->lights[indexLights].y)
-                    *(tableOfThieves->thieves[indexThieves].y - tableOfLights->lights[indexLights].y);
+                    (tableOfThieves->thieves[indexThieves].currentY - tableOfLights->lights[indexLights].y)
+                    *(tableOfThieves->thieves[indexThieves].currentY - tableOfLights->lights[indexLights].y);
 
         if(distance > radiusPow)
         {
@@ -344,10 +375,10 @@ bool moneyOnThieves(AllMoney *tableOfMoney, unsigned short int indexMoney, AllTh
 
     for(indexThieves = 0; indexThieves  < tableOfThieves ->lenght; indexThieves ++)
     {
-        distance = (tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[indexThieves].x)
-                    *(tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[indexThieves].x)
-                    + (tableOfMoney->money[indexMoney].y - tableOfThieves->thieves[indexThieves].y)
-                    *(tableOfMoney->money[indexMoney].y - tableOfThieves->thieves[indexThieves].y);
+        distance = (tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[indexThieves].currentX)
+                    *(tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[indexThieves].currentX)
+                    + (tableOfMoney->money[indexMoney].y - tableOfThieves->thieves[indexThieves].currentY)
+                    *(tableOfMoney->money[indexMoney].y - tableOfThieves->thieves[indexThieves].currentY);
 
         if(distance > distancePow)
         {
@@ -361,4 +392,19 @@ bool moneyOnThieves(AllMoney *tableOfMoney, unsigned short int indexMoney, AllTh
     }
     
     return(true);
+}
+
+/*
+* function :
+*           Calcul a degree in radian
+* 
+* param :
+*           unisgned short int degree : The degree we want to transform in radian
+*
+* return :
+*           double : The degree in radian
+*/
+double degreeToRadian(unsigned short int degree)
+{
+	return degree*M_PI/180.;
 }

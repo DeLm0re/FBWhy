@@ -6,7 +6,7 @@ CFLAGS = -std=c99 -m64 -O2 $(WARNING_FLAGS)
 CC = gcc
 CLIBS = -lm -lglut -lGL -lX11
 
-main: main.o GfxLib.o BmpLib.o OutilsLib.o core.o display.o image.o
+main: main.o GfxLib.o BmpLib.o OutilsLib.o core.o display.o image.o learning.o
 	@echo "Links edition :"
 	gcc $(CFLAGS) $^ -o $@ $(CLIBS)
 	rm -f *~ *.o
@@ -29,6 +29,11 @@ display.o: display.c display.h
 
 image.o: image.c image.h
 	@echo "Compilation image :"
+	gcc $(CFLAGS) -c $<
+	@echo ""
+
+learning.o: learning.c learning.h
+	@echo "Compilation learning :"
 	gcc $(CFLAGS) -c $<
 	@echo ""
 

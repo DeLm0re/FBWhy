@@ -23,10 +23,6 @@
 //Definition of the number of sectors we used to draw a circle
 #define NUMBER_SECTORS (16)
 
-//Default width and height
-#define WindowWidth 900
-#define WindowHeight 900
-
 /*
 * function :
 *           Draw the borders in our graphical window
@@ -102,3 +98,40 @@ void drawAllThieves(AllThieves *myThieves);
 *           void
 */
 void drawAllMoney(AllMoney *myMoney);
+
+/*
+* function :
+*           Printf all the weights table for a thief in console
+* 
+* param :
+*           AllMoney *tableOfThieves : A pointer on our table of "Thief"
+*           unisgned short int : Index on the thief containing the weights table we want to print
+*
+* return :
+*           void
+*/
+void printWeightsTable(AllThieves *tableOfThieves, unsigned short int index);
+
+/*
+* function :
+*           Printf all the value of an enum State
+* 
+* param :
+*           State aStateEnum : The enum State we want to print the value
+*
+* return :
+*           void
+*/
+void printStateValue(State aStateEnum);
+
+/*
+* function :
+*           Printf all the value of an enum Action
+* 
+* param :
+*           Action anActionEnum : The enum Action we want to print the value
+*
+* return :
+*           void
+*/
+void printActionValue(State anActionEnum);

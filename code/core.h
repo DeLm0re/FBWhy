@@ -14,6 +14,28 @@
 //Definition of the distance between the money and the thieves at the initialization
 #define DISTANCE_MONEY_THIEVES (200)
 
+#ifndef M_PI
+#define M_PI 3.141592654
+#endif
+
+//Default width and height
+#define WindowWidth 900
+#define WindowHeight 900
+
+//Type definition of all the state a thief can have
+typedef enum {GoingUp = 0, GoingUpRight = 1, GoingRight = 2, GoingDownRight = 3, GoingDown = 4, 
+                    GoingDownLeft = 5, GoingLeft = 6, GoingUpLeft = 7, Stable = 8} State;
+
+//Type definition of all the action a thief can make
+typedef enum {GoUp = 0, GoUpRight = 1, GoRight = 2, GoDownRight = 3, GoDown = 4, 
+                    GoDownLeft = 5, GoLeft = 6, GoUpLeft = 7, NoActivity = 8} Action;
+
+//Type definition of our correlation table of states
+typedef State Automaton[9][9];
+
+//Type definition of our weights table
+typedef float WeightsTable[9][9];
+
 //Type definition of Light
 typedef struct Light
 {
@@ -27,8 +49,12 @@ typedef struct Light
 //Type definition of Thief
 typedef struct Thief
 {
-    unsigned short int x;
-    unsigned short int y;
+    unsigned short int currentX;
+    unsigned short int currentY;
+    unsigned short int previousX;
+    unsigned short int previousY;
+    State currentState;
+    WeightsTable weights;
 } Thief;
 
 //Type definition of Money
@@ -84,6 +110,18 @@ AllLights* createAllLights(unsigned short int lenght, unsigned short int windowW
 *           AllThieves* : A pointer on a table of "Thief"
 */
 AllThieves* createAllThieves(unsigned short int lenght);
+
+/*
+* function :
+*           Initialize the memory for a weights table
+* 
+* param :
+*           WeightsTable **oneWeightsTable : Double pointer to the weights table
+*
+* return :
+*           void
+*/
+void createWeightsTable(WeightsTable oneWeightsTable);
 
 /*
 * function :
@@ -213,3 +251,15 @@ bool thiefUnderLights(AllThieves *tableOfThieves, unsigned short int indexThieve
 *           - False, the money have a good position
 */
 bool moneyOnThieves(AllMoney *tableOfMoney, unsigned short int indexMoney, AllThieves *tableOfThieves);
+
+/*
+* function :
+*           Calcul a degree in radian
+* 
+* param :
+*           unisgned short int degree : The degree we want to transform in radian
+*
+* return :
+*           double : The degree in radian
+*/
+double degreeToRadian(unsigned short int degree);

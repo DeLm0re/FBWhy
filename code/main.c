@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include <time.h>
+#include <unistd.h>
 
 /*
 * Custom headers files :
@@ -34,6 +35,20 @@ AllLights *myLights = NULL;
 AllThieves *myThieves = NULL;
 AllMoney *myMoney = NULL;
 
+
+Automaton theAutomaton = {
+							{GoingUp, GoingUpRight, GoingUpRight, Stable, Stable, Stable, GoingUpLeft, GoingUpLeft, GoingUp},
+						  	{GoingUp, GoingUpRight, GoingRight, GoingRight, Stable, Stable, Stable, GoingUp, GoingUpRight},
+						  	{GoingUpRight, GoingUpRight, GoingRight, GoingDownRight, GoingDownRight, Stable, Stable, Stable, GoingRight},
+							{Stable, GoingRight, GoingRight, GoingDownRight, GoingDown, GoingDown, Stable, Stable, GoingDownRight},
+							{Stable, Stable, GoingDownRight, GoingDownRight, GoingDown, GoingDownLeft, GoingDownLeft, Stable, GoingDown},
+							{Stable, Stable, Stable, GoingDown, GoingDown, GoingDownLeft, GoingLeft, GoingLeft, GoingDownLeft},
+							{GoingUpLeft, Stable, Stable, Stable, GoingDownLeft, GoingDownLeft, GoingLeft, GoingUpLeft, GoingLeft},
+							{GoingUp, GoingUp, Stable, Stable, Stable, GoingLeft, GoingLeft, GoingUpLeft, GoingUpLeft},
+							{GoingUp, GoingUpRight, GoingRight, GoingDownRight, GoingDown, GoingDownLeft, GoingLeft, GoingUpLeft, Stable}
+						};
+
+
 int main(int argc, char *argv[])
 {
 	initialiseGfx(argc, argv);
@@ -54,14 +69,15 @@ void gestionEvenement(EvenementGfx event)
 	{
 		case Initialisation:
 			etape = 0;
-			//demandeTemporisation(FRAME_RATE);
-			demandeTemporisation(FRAME_RATE_DEBUG);
+			demandeTemporisation(FRAME_RATE);
+			//demandeTemporisation(FRAME_RATE_DEBUG);
 			break;
 
 		case Temporisation:
 			if(etape > 0)
 			{
 				moveAllLights(myLights, largeurFenetre(), hauteurFenetre());
+				updateAllThieves(theAutomaton, myThieves);
 			}
 			rafraichisFenetre();
 			break;
@@ -95,6 +111,8 @@ void gestionEvenement(EvenementGfx event)
 				case 'Q':
 				case 'q':
 					deleteAllLights(&myLights);
+					deleteAllMoney(&myMoney);
+					deleteAllThieves(&myThieves);
 					termineBoucleEvenements();
 					break;
 
