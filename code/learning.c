@@ -12,7 +12,7 @@ void updateAllThieves(Automaton aAutomaton, AllThieves *tableOfThieves)
         choosenAction = chooseAction(tableOfThieves, indexThieves);
 
         printActionValue(choosenAction);
-        
+
         update(aAutomaton, choosenAction, tableOfThieves, indexThieves);
     }
 }
@@ -21,7 +21,11 @@ void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, uns
 {
     State currentState = tableOfThieves->thieves[index].currentState;
 
+    printStateValue(currentState);
+
 	State newState = aAutomaton[currentState][action];
+
+    printStateValue(newState);
 
     //Update cord
 	switch(newState)
@@ -242,4 +246,32 @@ void printActionValue(State anActionEnum)
             printf("NoActivity\n");
 			break;
     }
+}
+
+/*
+* function :
+*           Printf all the weights table for a thief in console
+* 
+* param :
+*           AllMoney *tableOfThieves : A pointer on our table of "Thief"
+*           unisgned short int : Index on the thief containing the weights table we want to print
+*
+* return :
+*           void
+*/
+void printWeightsTable(AllThieves *tableOfThieves, unsigned short int index)
+{
+    State indexState;
+    Action indexAction;
+
+    printf("\n");
+    for(indexState = GoingUp; indexState <= Stable; indexState++)
+    {
+        for(indexAction = GoUp; indexAction <= NoActivity; indexAction++)
+        {
+            printf(" %f", tableOfThieves->thieves[index].weights[indexState][indexAction]);
+        }
+        printf("\n");
+    }
+    printf("\n");
 }
