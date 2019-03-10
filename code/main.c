@@ -90,9 +90,6 @@ void gestionEvenement(EvenementGfx event)
 				drawBorders();
 				myLights = createAllLights(NUMBER_OF_LIGHTS, largeurFenetre(), hauteurFenetre());
 				myThieves = createAllThieves(NUMBER_OF_THIEVES);
-				puts("before");
-				printWeightsTable(myThieves, 0);
-				puts("after");
 				myMoney = createAllMoney(NUMBER_OF_MONEY);
 				positionElements(myLights, myThieves, myMoney, largeurFenetre(), hauteurFenetre());
 				etape++;

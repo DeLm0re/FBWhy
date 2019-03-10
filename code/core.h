@@ -34,7 +34,7 @@ typedef enum {GoUp = 0, GoUpRight = 1, GoRight = 2, GoDownRight = 3, GoDown = 4,
 typedef State Automaton[9][9];
 
 //Type definition of our weights table
-typedef float WeightsTable;
+typedef float WeightsTable[9][9];
 
 //Type definition of Light
 typedef struct Light
@@ -54,7 +54,7 @@ typedef struct Thief
     unsigned short int previousX;
     unsigned short int previousY;
     State currentState;
-    WeightsTable **weights;
+    WeightsTable weights;
 } Thief;
 
 //Type definition of Money
@@ -113,7 +113,7 @@ AllThieves* createAllThieves(unsigned short int lenght);
 
 /*
 * function :
-*           Allocate and initialize the memory for a weights table
+*           Initialize the memory for a weights table
 * 
 * param :
 *           WeightsTable **oneWeightsTable : Double pointer to the weights table
@@ -121,7 +121,7 @@ AllThieves* createAllThieves(unsigned short int lenght);
 * return :
 *           void
 */
-void createWeightsTable(WeightsTable **oneWeightsTable);
+void createWeightsTable(WeightsTable oneWeightsTable);
 
 /*
 * function :
@@ -158,18 +158,6 @@ void deleteAllLights(AllLights **tableOfLights);
 *           void
 */
 void deleteAllThieves(AllThieves **tableOfThieves);
-
-/*
-* function :
-*           Free the memory used by a weights table
-* 
-* param :
-*           WeightsTable ***oneWeightsTable : Double pointer on a weights table
-*
-* return :
-*           void
-*/
-void deleteWeightsTable(WeightsTable ***oneWeightsTable);
 
 /*
 * function :

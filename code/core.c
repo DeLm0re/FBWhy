@@ -88,7 +88,7 @@ AllThieves* createAllThieves(unsigned short int lenght)
 
 /*
 * function :
-*           Allocate and initialize the memory for a weights table
+*           Initialize the memory for a weights table
 * 
 * param :
 *           WeightsTable **oneWeightsTable : Double pointer to the weights table
@@ -96,18 +96,11 @@ AllThieves* createAllThieves(unsigned short int lenght)
 * return :
 *           void
 */
-void createWeightsTable(WeightsTable **oneWeightsTable)
+void createWeightsTable(WeightsTable oneWeightsTable)
 {
     State y;
     Action x;
-
-    oneWeightsTable = malloc(sizeof(*oneWeightsTable) * 9);
-
-    for(y = GoingUp; y <= Stable; y++)
-    {
-        oneWeightsTable[y] = malloc(sizeof(**oneWeightsTable) * 9);
-    }
-
+    
     for(y = GoingUp; y <= Stable; y++)
 	{
 		for (x = GoUp; x <= NoActivity; x++)
@@ -177,39 +170,10 @@ void deleteAllLights(AllLights **tableOfLights)
 */
 void deleteAllThieves(AllThieves **tableOfThieves)
 {
-    int indexThieves;
-
-    for(indexThieves = 0; indexThieves < (*tableOfThieves)->lenght; indexThieves++)
-    {
-        deleteWeightsTable( &( (*tableOfThieves)->thieves[indexThieves].weights ) );
-    }
     free((*tableOfThieves)->thieves);
     free(*tableOfThieves);
 
     tableOfThieves = NULL;
-}
-
-/*
-* function :
-*           Free the memory used by a weights table
-* 
-* param :
-*           WeightsTable ***oneWeightsTable : Double pointer on a weights table
-*
-* return :
-*           void
-*/
-void deleteWeightsTable(WeightsTable ***oneWeightsTable)
-{
-    State y;
-
-    for(y = GoingUp; y <= Stable; y++)
-    {
-        free((*oneWeightsTable)[y]);
-    }
-
-    free(*oneWeightsTable);
-    oneWeightsTable = NULL;
 }
 
 /*

@@ -9,13 +9,7 @@ void updateAllThieves(Automaton aAutomaton, AllThieves *tableOfThieves)
 
     for(indexThieves = 0; indexThieves < tableOfThieves->lenght; indexThieves++)
     {
-        printf("Index du voleur : %u \n", indexThieves);
-
-        printf("current state : %d \n", tableOfThieves->thieves[indexThieves].currentState);
-
         choosenAction = chooseAction(tableOfThieves, indexThieves);
-
-        puts("ok choseaction");
 
         update(aAutomaton, choosenAction, tableOfThieves, indexThieves);
     }
@@ -103,11 +97,8 @@ Action chooseAction(AllThieves *tableOfThieves, unsigned short int index)
 
     for(indexAction = GoUpRight; indexAction <= NoActivity; ++indexAction)
     {
-        printf("Indexaction : %d \n", indexAction);
-
         if(tableOfThieves->thieves[index].weights[actualState][indexAction] > tableOfThieves->thieves[index].weights[actualState][actionToMake])
         {
-            puts("ok if");
             actionToMake = tableOfThieves->thieves[index].weights[actualState][indexAction];
         }
     }
