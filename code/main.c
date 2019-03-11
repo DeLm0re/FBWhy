@@ -20,13 +20,13 @@
 
 //Definition of the frame rate in milliseconds (FPmS)
 #define FRAME_RATE (10)
-#define FRAME_RATE_DEBUG (2000)
+#define FRAME_RATE_DEBUG (500)
 
 //Definition of the number of lights
 #define NUMBER_OF_LIGHTS (15)
 
 //Definition of the number of thieves
-#define NUMBER_OF_THIEVES (1)
+#define NUMBER_OF_THIEVES (7)
 
 //Definition of the number of money
 #define NUMBER_OF_MONEY (7)
@@ -69,8 +69,8 @@ void gestionEvenement(EvenementGfx event)
 	{
 		case Initialisation:
 			etape = 0;
-			//demandeTemporisation(FRAME_RATE);
-			demandeTemporisation(FRAME_RATE_DEBUG);
+			demandeTemporisation(FRAME_RATE);
+			//demandeTemporisation(FRAME_RATE_DEBUG);
 			break;
 
 		case Temporisation:

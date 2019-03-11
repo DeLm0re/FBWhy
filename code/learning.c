@@ -76,14 +76,8 @@ void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, uns
 			break;
 	}
     
-    puts("before");
-    printWeightsTable(tableOfThieves, index);
-
     //Update weights table
 	updateUtility(newState, action, tableOfThieves, index);
-
-    puts("after");
-    printWeightsTable(tableOfThieves, index);
 
     //Update current state that become the state we are now
 	tableOfThieves->thieves[index].currentState = newState;
@@ -91,23 +85,20 @@ void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, uns
 
 Action chooseAction(AllThieves *tableOfThieves, unsigned short int index)
 {
-    /*Ne marche pas comme prévu*/
     State actualState = tableOfThieves->thieves[index].currentState;
 
 	Action indexAction;
 
     Action actionToMake = GoUp;
 
-    for(indexAction = GoUpRight; indexAction <= NoActivity; ++indexAction)
+    for(indexAction = GoUpRight; indexAction <= NoActivity; indexAction++)
     {
-        printf("Poids : %f ", tableOfThieves->thieves[index].weights[actualState][indexAction]);
         if(tableOfThieves->thieves[index].weights[actualState][indexAction] > tableOfThieves->thieves[index].weights[actualState][actionToMake])
         {
-            actionToMake = tableOfThieves->thieves[index].weights[actualState][indexAction];
+            actionToMake = indexAction;
         }
     }
-    printf("\n\n");
-    printActionValue(actionToMake);
+
     return(actionToMake);
 }
 
