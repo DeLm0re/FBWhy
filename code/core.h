@@ -109,13 +109,11 @@ AllLights* createAllLights(unsigned short int lenght, unsigned short int windowW
 * 
 * param :
 *           unsigned short int lenght : The lenght of our table we want to allocate
-*           AllLights *tableOfLights : Used to calcul the distance between all lights and the thieves
-*           AllMoney *tableOfMoney : Used to calcul the nearest Money for each thief and to calcul the distance between this money and this thief
 *
 * return :
 *           AllThieves* : A pointer on a table of "Thief"
 */
-AllThieves* createAllThieves(unsigned short int lenght, AllLights *tableOfLights, AllMoney *tableOfMoney);
+AllThieves* createAllThieves(unsigned short int lenght);
 
 /*
 * function :
@@ -297,3 +295,18 @@ float calculLightsDistance(AllThieves *tableOfThieves, unsigned short int index,
 *           unsigned short int : The index of the nearest Money
 */
 unsigned short int indexNearestMoney(AllThieves *tableOfThieves, unsigned short int index, AllMoney *tableOfMoney);
+
+/*
+* function :
+*           Calcul the distance between a Money and a Thief
+* 
+* param :
+*           AllThieves *tableOfThieves : A pointer on a table of "Thief"
+*           unsigned short int indexThieves : The index in the table of "Thief", pointing the specific Thief
+*           AllThieves *tableOfMoney : A pointer on a table of "Money"
+*           unsigned short int indexMoney : The index in the table of "Money", pointing the specific Money
+*
+* return :
+*           float ; The distance
+*/
+float calculCurrentMoneyDistance(AllThieves *tableOfThieves, unsigned short int indexThieves, AllMoney *tableOfMoney, unsigned short int indexMoney);

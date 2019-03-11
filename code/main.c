@@ -90,8 +90,13 @@ void gestionEvenement(EvenementGfx event)
 				drawBorders();
 				myLights = createAllLights(NUMBER_OF_LIGHTS, largeurFenetre(), hauteurFenetre());
 				myMoney = createAllMoney(NUMBER_OF_MONEY);
-				myThieves = createAllThieves(NUMBER_OF_THIEVES, myLights, myMoney);
+				myThieves = createAllThieves(NUMBER_OF_THIEVES);
 				positionElements(myLights, myThieves, myMoney, largeurFenetre(), hauteurFenetre());
+
+				printf("Distance sum lights %f \n", myThieves->thieves[0].currentLightsDistance);
+				printf("Index nearest money %u \n", myThieves->thieves[0].nearestMoney);
+				printf("Distance nearest money %f \n", myThieves->thieves[0].currentMoneyDistance);
+				
 				etape++;
 			}
 
