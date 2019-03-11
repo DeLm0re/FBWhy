@@ -1,6 +1,17 @@
 //To include the functions prototypes
 #include "learning.h"
 
+/*
+* function :
+*           Update the position of all thieves based on a reinforment algorythm
+* 
+* param :
+*           Automaton aAutomaton : A table on which we based our State and Action
+*           AllTHieves *tableOfThieves : A pointer on a table of "Thief"
+*
+* return :
+*           void
+*/
 void updateAllThieves(Automaton aAutomaton, AllThieves *tableOfThieves)
 {
     unsigned short int indexThieves;
@@ -15,6 +26,20 @@ void updateAllThieves(Automaton aAutomaton, AllThieves *tableOfThieves)
     }
 }
 
+/*
+* function :
+*           Update the position of a specific thief based on a reinforment algorythm and a specific Action choosen
+*           == >> Used by updateAllThieves
+* 
+* param :
+*           Automaton aAutomaton : A table on which we based our State and Action
+*           Action action : The Action choosen
+*           AllTHieves *tableOfThieves : A pointer on a table of "Thief"
+*           unsigned short int index : A index in the table tableOfThieve to determine which Thief we work with
+*
+* return :
+*           void
+*/
 void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, unsigned short int index)
 {
     State currentState = tableOfThieves->thieves[index].currentState;
@@ -83,6 +108,18 @@ void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, uns
 	tableOfThieves->thieves[index].currentState = newState;
 }
 
+/*
+* function :
+*           Choose the bestest Action for a specific Thief
+*           == >> Used by updateAllThieves
+* 
+* param :
+*           AllTHieves *tableOfThieves : A pointer on a table of "Thief"
+*           unsigned short int index : A index in the table tableOfThieve to determine which Thief we work with
+*
+* return :
+*           Action : The Action choosen
+*/
 Action chooseAction(AllThieves *tableOfThieves, unsigned short int index)
 {
     State actualState = tableOfThieves->thieves[index].currentState;
@@ -102,6 +139,20 @@ Action chooseAction(AllThieves *tableOfThieves, unsigned short int index)
     return(actionToMake);
 }
 
+/*
+* function :
+*           Update the weightsTable of a Thief
+*           == >> Used by update
+* 
+* param :
+*           State nextState : The newt State the Thief will have
+*           Action action : The Action choosen
+*           AllTHieves *tableOfThieves : A pointer on a table of "Thief"
+*           unsigned short int index : A index in the table tableOfThieve to determine which Thief we work with
+*
+* return :
+*           void
+*/
 void updateUtility(State nextState, Action action, AllThieves *tableOfThieves, unsigned short int index)
 {
     Action indexAction;
@@ -123,6 +174,17 @@ void updateUtility(State nextState, Action action, AllThieves *tableOfThieves, u
                 + STEP_MODIFICATION * (reward(tableOfThieves, index)+FACTOR*maxWeight);
 }
 
+/*
+* function :
+*           Determine the reward to give to a Thief his last Action
+* 
+* param :
+*           AllTHieves *tableOfThieves : A pointer on a table of "Thief"
+*           unsigned short int index : A index in the table tableOfThieve to determine which Thief we work with
+*
+* return :
+*           float
+*/
 float reward(AllThieves *tableOfThieves, unsigned short int index)
 {
 	if( (tableOfThieves->thieves[index].currentY < tableOfThieves->thieves[index].previousY) && (tableOfThieves->thieves[index].currentX < tableOfThieves->thieves[index].previousX) )
