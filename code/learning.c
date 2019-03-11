@@ -8,11 +8,13 @@
 * param :
 *           Automaton aAutomaton : A table on which we based our State and Action
 *           AllTHieves *tableOfThieves : A pointer on a table of "Thief"
+*           AllLights *tableOfLights : A pointer on a table of "Light"
+*           AllMoney *tableOfMoney : A pointer on a table of "Money"
 *
 * return :
 *           void
 */
-void updateAllThieves(Automaton aAutomaton, AllThieves *tableOfThieves)
+void updateAllThieves(Automaton aAutomaton, AllThieves *tableOfThieves, AllLights *tableOfLights, AllMoney *tableOfMoney)
 {
     unsigned short int indexThieves;
 
@@ -22,7 +24,7 @@ void updateAllThieves(Automaton aAutomaton, AllThieves *tableOfThieves)
     {
         choosenAction = chooseAction(tableOfThieves, indexThieves);
 
-        update(aAutomaton, choosenAction, tableOfThieves, indexThieves);
+        update(aAutomaton, choosenAction, tableOfThieves, indexThieves, tableOfLights, tableOfMoney);
     }
 }
 
@@ -34,13 +36,15 @@ void updateAllThieves(Automaton aAutomaton, AllThieves *tableOfThieves)
 * param :
 *           Automaton aAutomaton : A table on which we based our State and Action
 *           Action action : The Action choosen
-*           AllTHieves *tableOfThieves : A pointer on a table of "Thief"
+*           AllThieves *tableOfThieves : A pointer on a table of "Thief"
 *           unsigned short int index : A index in the table tableOfThieve to determine which Thief we work with
+*           AllLights *tableOfLights : A pointer on a table of "Light"
+*           AllMoney *tableOfMoney : A pointer on a table of "Money"
 *
 * return :
 *           void
 */
-void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, unsigned short int index)
+void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, unsigned short int index, AllLights *tableOfLights, AllMoney *tableOfMoney)
 {
     State currentState = tableOfThieves->thieves[index].currentState;
 
@@ -100,6 +104,16 @@ void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, uns
         case Stable:
 			break;
 	}
+
+    //Update lights distance
+    tableOfThieves->thieves[index].previousLightsDistance = tableOfThieves->thieves[index].currentLightsDistance;
+    tableOfThieves->thieves[index].currentLightsDistance = calculLightsDistance(tableOfThieves, index, tableOfLights);
+
+    //Update money distance
+    tableOfThieves->thieves[index].previousMoneyDistance = tableOfThieves->thieves[index].currentMoneyDistance;
+    tableOfThieves->thieves[index].nearestMoney = indexNearestMoney(tableOfThieves, index, tableOfMoney);
+    tableOfThieves->thieves[index].currentMoneyDistance = 
+                calculCurrentMoneyDistance(tableOfThieves, index, tableOfMoney, tableOfThieves->thieves[index].nearestMoney);
     
     //Update weights table
 	updateUtility(newState, action, tableOfThieves, index);
@@ -187,13 +201,20 @@ void updateUtility(State nextState, Action action, AllThieves *tableOfThieves, u
 */
 float reward(AllThieves *tableOfThieves, unsigned short int index)
 {
-	if( (tableOfThieves->thieves[index].currentY < tableOfThieves->thieves[index].previousY) && (tableOfThieves->thieves[index].currentX < tableOfThieves->thieves[index].previousX) )
+    float currentDL = tableOfThieves->thieves[index].currentLightsDistance;
+    float previousDL =  tableOfThieves->thieves[index].previousLightsDistance;
+/*
+    float currentDM = tableOfThieves->thieves[index].currentMoneyDistance;
+    float previousDM = tableOfThieves->thieves[index].previousMoneyDistance;
+*/
+    if(currentDL >= previousDL)
     {
         return(2.f);
     }
-    else{
-        return(.5f);
-    }
+    else
+    {
+        return(-(2.f));
+    } 
 }
 
 /*

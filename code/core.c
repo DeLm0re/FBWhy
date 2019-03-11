@@ -291,7 +291,7 @@ void positionElements(AllLights *tableOfLights, AllThieves *tableOfThieves, AllM
 
         }while(moneyOnThieves(tableOfMoney, indexMoney, tableOfThieves) == true);
     }
-    
+
     for(indexThieves = 0; indexThieves < tableOfThieves->lenght; indexThieves++)
     {
         do
@@ -307,6 +307,7 @@ void positionElements(AllLights *tableOfLights, AllThieves *tableOfThieves, AllM
         tableOfThieves->thieves[indexThieves].nearestMoney = indexNearestMoney(tableOfThieves, indexThieves, tableOfMoney);
         tableOfThieves->thieves[indexThieves].currentMoneyDistance = 
                 calculCurrentMoneyDistance(tableOfThieves, indexThieves, tableOfMoney, tableOfThieves->thieves[indexThieves].nearestMoney);
+        tableOfThieves->thieves[indexThieves].previousMoneyDistance = tableOfThieves->thieves[indexThieves].currentMoneyDistance;
     }
 }
 

@@ -58,6 +58,7 @@ typedef struct Thief
     float currentLightsDistance;
     float previousLightsDistance;
     float currentMoneyDistance;
+    float previousMoneyDistance;
     unsigned short int nearestMoney;
 } Thief;
 

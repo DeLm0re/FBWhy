@@ -27,11 +27,13 @@
 * param :
 *           Automaton aAutomaton : A table on which we based our State and Action
 *           AllTHieves *tableOfThieves : A pointer on a table of "Thief"
+*           AllLights *tableOfLights : A pointer on a table of "Light"
+*           AllMoney *tableOfMoney : A pointer on a table of "Money"
 *
 * return :
 *           void
 */
-void updateAllThieves(Automaton aAutomaton, AllThieves *tableOfThieves);
+void updateAllThieves(Automaton aAutomaton, AllThieves *tableOfThieves, AllLights *tableOfLights, AllMoney *tableOfMoney);
 
 /*
 * function :
@@ -41,13 +43,15 @@ void updateAllThieves(Automaton aAutomaton, AllThieves *tableOfThieves);
 * param :
 *           Automaton aAutomaton : A table on which we based our State and Action
 *           Action action : The Action choosen
-*           AllTHieves *tableOfThieves : A pointer on a table of "Thief"
+*           AllThieves *tableOfThieves : A pointer on a table of "Thief"
 *           unsigned short int index : A index in the table tableOfThieve to determine which Thief we work with
+*           AllLights *tableOfLights : A pointer on a table of "Light"
+*           AllMoney *tableOfMoney : A pointer on a table of "Money"
 *
 * return :
 *           void
 */
-void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, unsigned short int index);
+void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, unsigned short int index, AllLights *tableOfLights, AllMoney *tableOfMoney);
 
 /*
 * function :
