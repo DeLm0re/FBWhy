@@ -469,14 +469,14 @@ unsigned short int indexNearestMoney(AllThieves *tableOfThieves, unsigned short 
     unsigned short int indexMoney;
     unsigned short int indexNearestMoney = 0;
 
-    float minDistance = (tableOfMoney->money[indexNearestMoney].x - tableOfThieves->thieves[index].currentX)
+    double minDistance = (tableOfMoney->money[indexNearestMoney].x - tableOfThieves->thieves[index].currentX)
                     *(tableOfMoney->money[indexNearestMoney].x - tableOfThieves->thieves[index].currentX)
                     + (tableOfMoney->money[indexNearestMoney].y - tableOfThieves->thieves[index].currentY)
                     *(tableOfMoney->money[indexNearestMoney].y - tableOfThieves->thieves[index].currentY);
 
-    float distance;
+    double distance;
 
-    for(indexMoney = 1; indexMoney < tableOfMoney->lenght; indexMoney++)
+    for(indexMoney = 0; indexMoney < tableOfMoney->lenght; indexMoney++)
     {
         distance = (tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[index].currentX)
                     *(tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[index].currentX)
@@ -486,6 +486,10 @@ unsigned short int indexNearestMoney(AllThieves *tableOfThieves, unsigned short 
         if(distance < minDistance)
         {
             indexNearestMoney = indexMoney;
+            minDistance = (tableOfMoney->money[indexNearestMoney].x - tableOfThieves->thieves[index].currentX)
+                    *(tableOfMoney->money[indexNearestMoney].x - tableOfThieves->thieves[index].currentX)
+                    + (tableOfMoney->money[indexNearestMoney].y - tableOfThieves->thieves[index].currentY)
+                    *(tableOfMoney->money[indexNearestMoney].y - tableOfThieves->thieves[index].currentY);
         }
     }
 

@@ -20,22 +20,22 @@
 
 //Definition of the frame rate in milliseconds (FPmS)
 #define FRAME_RATE (10)
-#define FRAME_RATE_DEBUG (1500)
+#define FRAME_RATE_DEBUG (10000)
 
 //Definition of the number of lights
-#define NUMBER_OF_LIGHTS (15)
+#define NUMBER_OF_LIGHTS (10)
 
 //Definition of the number of thieves
-#define NUMBER_OF_THIEVES (5)
+#define NUMBER_OF_THIEVES (8)
 
 //Definition of the number of money
-#define NUMBER_OF_MONEY (5)
+#define NUMBER_OF_MONEY (8)
 
 AllLights *myLights = NULL;
 AllThieves *myThieves = NULL;
 AllMoney *myMoney = NULL;
 
-
+/*
 Automaton theAutomaton = {
 							{GoingUp, GoingUpRight, GoingUpRight, Stable, Stable, Stable, GoingUpLeft, GoingUpLeft, GoingUp},
 						  	{GoingUp, GoingUpRight, GoingRight, GoingRight, Stable, Stable, Stable, GoingUp, GoingUpRight},
@@ -47,7 +47,15 @@ Automaton theAutomaton = {
 							{GoingUp, GoingUp, Stable, Stable, Stable, GoingLeft, GoingLeft, GoingUpLeft, GoingUpLeft},
 							{GoingUp, GoingUpRight, GoingRight, GoingDownRight, GoingDown, GoingDownLeft, GoingLeft, GoingUpLeft, Stable}
 						};
+*/
 
+Automaton theAutomaton = {
+							{GoingUp, GoingRight, Stable, GoingLeft, Stable},
+						  	{GoingUp, GoingRight, GoingDown, Stable, Stable},
+							{Stable, GoingRight, GoingDown, GoingLeft, Stable},
+							{GoingUp, Stable, GoingDown, GoingLeft, Stable},
+							{GoingUp, GoingRight, GoingDown, GoingLeft, Stable}
+						};
 
 int main(int argc, char *argv[])
 {
