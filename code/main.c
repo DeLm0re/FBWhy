@@ -20,16 +20,16 @@
 
 //Definition of the frame rate in milliseconds (FPmS)
 #define FRAME_RATE (10)
-#define FRAME_RATE_DEBUG (10000)
+#define FRAME_RATE_DEBUG (1500)
 
 //Definition of the number of lights
 #define NUMBER_OF_LIGHTS (15)
 
 //Definition of the number of thieves
-#define NUMBER_OF_THIEVES (7)
+#define NUMBER_OF_THIEVES (1)
 
 //Definition of the number of money
-#define NUMBER_OF_MONEY (7)
+#define NUMBER_OF_MONEY (1)
 
 AllLights *myLights = NULL;
 AllThieves *myThieves = NULL;
@@ -77,7 +77,7 @@ void gestionEvenement(EvenementGfx event)
 			if(etape > 0)
 			{
 				moveAllLights(myLights, largeurFenetre(), hauteurFenetre());
-				updateAllThieves(theAutomaton, myThieves);
+				updateAllThieves(theAutomaton, myThieves, myLights, myMoney);
 			}
 			rafraichisFenetre();
 			break;
@@ -89,9 +89,16 @@ void gestionEvenement(EvenementGfx event)
 				effaceFenetre (0, 0, 0);
 				drawBorders();
 				myLights = createAllLights(NUMBER_OF_LIGHTS, largeurFenetre(), hauteurFenetre());
-				myThieves = createAllThieves(NUMBER_OF_THIEVES);
 				myMoney = createAllMoney(NUMBER_OF_MONEY);
+				myThieves = createAllThieves(NUMBER_OF_THIEVES);
 				positionElements(myLights, myThieves, myMoney, largeurFenetre(), hauteurFenetre());
+
+				/*
+				printf("Distance sum lights %f \n", myThieves->thieves[0].currentLightsDistance);
+				printf("Index nearest money %u \n", myThieves->thieves[0].nearestMoney);
+				printf("Distance nearest money %f \n", myThieves->thieves[0].currentMoneyDistance);
+				*/
+
 				etape++;
 			}
 

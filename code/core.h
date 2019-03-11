@@ -55,6 +55,11 @@ typedef struct Thief
     unsigned short int previousY;
     State currentState;
     WeightsTable weights;
+    float currentLightsDistance;
+    float previousLightsDistance;
+    float currentMoneyDistance;
+    float previousMoneyDistance;
+    unsigned short int nearestMoney;
 } Thief;
 
 //Type definition of Money
@@ -263,3 +268,46 @@ bool moneyOnThieves(AllMoney *tableOfMoney, unsigned short int indexMoney, AllTh
 *           double : The degree in radian
 */
 double degreeToRadian(unsigned short int degree);
+
+/*
+* function :
+*           Return the sum of the distance with all the lights for a specific Thief
+* 
+* param :
+*           AllThieves *tableOfThieves : A pointer on a table of "Thief"
+*           unsigned short int index : The index in the table of "Thief", pointing the specific Thief
+*           AllThieves *tableOfLights : A pointer on a table of "Lights"
+*
+* return :
+*           float : The sum of all the distance
+*/
+float calculLightsDistance(AllThieves *tableOfThieves, unsigned short int index, AllLights *tableOfLights);
+
+/*
+* function :
+*           Return the index of the nearest Money considering a specific Thief
+* 
+* param :
+*           AllThieves *tableOfThieves : A pointer on a table of "Thief"
+*           unsigned short int index : The index in the table of "Thief", pointing the specific Thief
+*           AllThieves *tableOfMoney : A pointer on a table of "Money"
+*
+* return :
+*           unsigned short int : The index of the nearest Money
+*/
+unsigned short int indexNearestMoney(AllThieves *tableOfThieves, unsigned short int index, AllMoney *tableOfMoney);
+
+/*
+* function :
+*           Calcul the distance between a Money and a Thief
+* 
+* param :
+*           AllThieves *tableOfThieves : A pointer on a table of "Thief"
+*           unsigned short int indexThieves : The index in the table of "Thief", pointing the specific Thief
+*           AllThieves *tableOfMoney : A pointer on a table of "Money"
+*           unsigned short int indexMoney : The index in the table of "Money", pointing the specific Money
+*
+* return :
+*           float ; The distance
+*/
+float calculCurrentMoneyDistance(AllThieves *tableOfThieves, unsigned short int indexThieves, AllMoney *tableOfMoney, unsigned short int indexMoney);
