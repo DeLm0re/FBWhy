@@ -55,6 +55,10 @@ typedef struct Thief
     unsigned short int previousY;
     State currentState;
     WeightsTable weights;
+    float currentLightsDistance;
+    float previousLightsDistance;
+    float currentMoneyDistance;
+    unsigned short int nearestMoney;
 } Thief;
 
 //Type definition of Money
@@ -105,11 +109,13 @@ AllLights* createAllLights(unsigned short int lenght, unsigned short int windowW
 * 
 * param :
 *           unsigned short int lenght : The lenght of our table we want to allocate
+*           AllLights *tableOfLights : Used to calcul the distance between all lights and the thieves
+*           AllMoney *tableOfMoney : Used to calcul the nearest Money for each thief and to calcul the distance between this money and this thief
 *
 * return :
 *           AllThieves* : A pointer on a table of "Thief"
 */
-AllThieves* createAllThieves(unsigned short int lenght);
+AllThieves* createAllThieves(unsigned short int lenght, AllLights *tableOfLights, AllMoney *tableOfMoney);
 
 /*
 * function :
@@ -263,3 +269,31 @@ bool moneyOnThieves(AllMoney *tableOfMoney, unsigned short int indexMoney, AllTh
 *           double : The degree in radian
 */
 double degreeToRadian(unsigned short int degree);
+
+/*
+* function :
+*           Return the sum of the distance with all the lights for a specific Thief
+* 
+* param :
+*           AllThieves *tableOfThieves : A pointer on a table of "Thief"
+*           unsigned short int index : The index in the table of "Thief", pointing the specific Thief
+*           AllThieves *tableOfLights : A pointer on a table of "Lights"
+*
+* return :
+*           float : The sum of all the distance
+*/
+float calculLightsDistance(AllThieves *tableOfThieves, unsigned short int index, AllLights *tableOfLights);
+
+/*
+* function :
+*           Return the index of the nearest Money considering a specific Thief
+* 
+* param :
+*           AllThieves *tableOfThieves : A pointer on a table of "Thief"
+*           unsigned short int index : The index in the table of "Thief", pointing the specific Thief
+*           AllThieves *tableOfMoney : A pointer on a table of "Money"
+*
+* return :
+*           unsigned short int : The index of the nearest Money
+*/
+unsigned short int indexNearestMoney(AllThieves *tableOfThieves, unsigned short int index, AllMoney *tableOfMoney);

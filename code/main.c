@@ -89,8 +89,8 @@ void gestionEvenement(EvenementGfx event)
 				effaceFenetre (0, 0, 0);
 				drawBorders();
 				myLights = createAllLights(NUMBER_OF_LIGHTS, largeurFenetre(), hauteurFenetre());
-				myThieves = createAllThieves(NUMBER_OF_THIEVES);
 				myMoney = createAllMoney(NUMBER_OF_MONEY);
+				myThieves = createAllThieves(NUMBER_OF_THIEVES, myLights, myMoney);
 				positionElements(myLights, myThieves, myMoney, largeurFenetre(), hauteurFenetre());
 				etape++;
 			}
