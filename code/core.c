@@ -304,10 +304,14 @@ void positionElements(AllLights *tableOfLights, AllThieves *tableOfThieves, AllM
 
         tableOfThieves->thieves[indexThieves].currentLightsDistance = calculLightsDistance(tableOfThieves, indexThieves, tableOfLights);
         tableOfThieves->thieves[indexThieves].previousLightsDistance = tableOfThieves->thieves[indexThieves].currentLightsDistance;
+
         tableOfThieves->thieves[indexThieves].nearestMoney = indexNearestMoney(tableOfThieves, indexThieves, tableOfMoney);
-        tableOfThieves->thieves[indexThieves].currentMoneyDistance = 
-                calculCurrentMoneyDistance(tableOfThieves, indexThieves, tableOfMoney, tableOfThieves->thieves[indexThieves].nearestMoney);
-        tableOfThieves->thieves[indexThieves].previousMoneyDistance = tableOfThieves->thieves[indexThieves].currentMoneyDistance;
+        tableOfThieves->thieves[indexThieves].currentMoneyDistanceX = 
+        abs(tableOfThieves->thieves[indexThieves].currentX - tableOfMoney->money[tableOfThieves->thieves[indexThieves].nearestMoney].x);
+        tableOfThieves->thieves[indexThieves].currentMoneyDistanceY = 
+        abs(tableOfThieves->thieves[indexThieves].currentY - tableOfMoney->money[tableOfThieves->thieves[indexThieves].nearestMoney].y);
+        tableOfThieves->thieves[indexThieves].previousMoneyDistanceX = tableOfThieves->thieves[indexThieves].currentMoneyDistanceX;
+        tableOfThieves->thieves[indexThieves].previousMoneyDistanceY = tableOfThieves->thieves[indexThieves].currentMoneyDistanceY;
     }
 }
 
@@ -486,31 +490,4 @@ unsigned short int indexNearestMoney(AllThieves *tableOfThieves, unsigned short 
     }
 
     return (indexNearestMoney);
-}
-
-/*
-* function :
-*           Calcul the distance between a Money and a Thief
-* 
-* param :
-*           AllThieves *tableOfThieves : A pointer on a table of "Thief"
-*           unsigned short int indexThieves : The index in the table of "Thief", pointing the specific Thief
-*           AllThieves *tableOfMoney : A pointer on a table of "Money"
-*           unsigned short int indexMoney : The index in the table of "Money", pointing the specific Money
-*
-* return :
-*           float ; The distance
-*/
-float calculCurrentMoneyDistance(AllThieves *tableOfThieves, unsigned short int indexThieves, AllMoney *tableOfMoney, unsigned short int indexMoney)
-{
-    float distance;
-
-    distance = (tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[indexThieves].currentX)
-                *(tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[indexThieves].currentX)
-                + (tableOfMoney->money[indexMoney].y - tableOfThieves->thieves[indexThieves].currentY)
-                *(tableOfMoney->money[indexMoney].y - tableOfThieves->thieves[indexThieves].currentY);
-
-    distance = sqrt(distance);
-
-    return(distance);
 }

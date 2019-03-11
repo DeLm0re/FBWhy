@@ -57,8 +57,10 @@ typedef struct Thief
     WeightsTable weights;
     float currentLightsDistance;
     float previousLightsDistance;
-    float currentMoneyDistance;
-    float previousMoneyDistance;
+    unsigned short int currentMoneyDistanceX;
+    unsigned short int currentMoneyDistanceY;
+    unsigned short int previousMoneyDistanceX;
+    unsigned short int previousMoneyDistanceY;
     unsigned short int nearestMoney;
 } Thief;
 
@@ -296,18 +298,3 @@ float calculLightsDistance(AllThieves *tableOfThieves, unsigned short int index,
 *           unsigned short int : The index of the nearest Money
 */
 unsigned short int indexNearestMoney(AllThieves *tableOfThieves, unsigned short int index, AllMoney *tableOfMoney);
-
-/*
-* function :
-*           Calcul the distance between a Money and a Thief
-* 
-* param :
-*           AllThieves *tableOfThieves : A pointer on a table of "Thief"
-*           unsigned short int indexThieves : The index in the table of "Thief", pointing the specific Thief
-*           AllThieves *tableOfMoney : A pointer on a table of "Money"
-*           unsigned short int indexMoney : The index in the table of "Money", pointing the specific Money
-*
-* return :
-*           float ; The distance
-*/
-float calculCurrentMoneyDistance(AllThieves *tableOfThieves, unsigned short int indexThieves, AllMoney *tableOfMoney, unsigned short int indexMoney);

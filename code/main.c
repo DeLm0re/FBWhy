@@ -26,10 +26,10 @@
 #define NUMBER_OF_LIGHTS (15)
 
 //Definition of the number of thieves
-#define NUMBER_OF_THIEVES (1)
+#define NUMBER_OF_THIEVES (5)
 
 //Definition of the number of money
-#define NUMBER_OF_MONEY (1)
+#define NUMBER_OF_MONEY (5)
 
 AllLights *myLights = NULL;
 AllThieves *myThieves = NULL;
