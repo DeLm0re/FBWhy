@@ -73,10 +73,14 @@ void gestionEvenement(EvenementGfx event)
 {
 	static unsigned short int etape;
 
+	static bool moveLights;
+
 	switch (event)
 	{
 		case Initialisation:
 			etape = 0;
+			moveLights = true;
+
 			demandeTemporisation(FRAME_RATE);
 			//demandeTemporisation(FRAME_RATE_DEBUG);
 			break;
@@ -84,8 +88,15 @@ void gestionEvenement(EvenementGfx event)
 		case Temporisation:
 			if(etape > 0)
 			{
-				moveAllLights(myLights, largeurFenetre(), hauteurFenetre());
-				updateAllThieves(theAutomaton, myThieves, myLights, myMoney);
+				if(moveLights == true)
+				{
+					moveAllLights(myLights, largeurFenetre(), hauteurFenetre());
+					updateAllThieves(theAutomaton, myThieves, myLights, myMoney);
+				}
+				else
+				{
+					updateAllThieves(theAutomaton, myThieves, myLights, myMoney);
+				}
 			}
 			rafraichisFenetre();
 			break;
@@ -134,6 +145,18 @@ void gestionEvenement(EvenementGfx event)
 				case 'R':
 				case 'r':
 					rafraichisFenetre();
+					break;
+
+				case 'M':
+				case 'm':
+					if(moveLights == true)
+					{
+						moveLights = false;
+					}
+					else
+					{
+						moveLights = true;
+					}
 					break;
 			}
 			break;
