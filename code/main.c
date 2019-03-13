@@ -50,10 +50,10 @@ Automaton theAutomaton = {
 */
 
 Automaton theAutomaton = {
-							{GoingUp, GoingRight, Stable, GoingLeft, Stable},
-						  	{GoingUp, GoingRight, GoingDown, Stable, Stable},
-							{Stable, GoingRight, GoingDown, GoingLeft, Stable},
-							{GoingUp, Stable, GoingDown, GoingLeft, Stable},
+							{GoingUp, GoingRight, Stable, GoingLeft, GoingUp},
+						  	{GoingUp, GoingRight, GoingDown, Stable, GoingRight},
+							{Stable, GoingRight, GoingDown, GoingLeft, GoingDown},
+							{GoingUp, Stable, GoingDown, GoingLeft, GoingLeft},
 							{GoingUp, GoingRight, GoingDown, GoingLeft, Stable}
 						};
 

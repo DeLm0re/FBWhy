@@ -106,8 +106,13 @@ void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, uns
 	}
 
     //Update lights distance
-    tableOfThieves->thieves[index].previousLightsDistance = tableOfThieves->thieves[index].currentLightsDistance;
-    tableOfThieves->thieves[index].currentLightsDistance = calculLightsDistance(tableOfThieves, index, tableOfLights);
+    tableOfThieves->thieves[index].previousLightDistanceX = tableOfThieves->thieves[index].currentLightDistanceX;
+    tableOfThieves->thieves[index].previousLightDistanceY = tableOfThieves->thieves[index].currentLightDistanceY;
+    tableOfThieves->thieves[index].nearestLight = indexNearestLight(tableOfThieves, index, tableOfLights);
+    tableOfThieves->thieves[index].currentLightDistanceX = 
+        abs(tableOfThieves->thieves[index].currentX - tableOfLights->lights[tableOfThieves->thieves[index].nearestLight].x);
+    tableOfThieves->thieves[index].currentLightDistanceY = 
+        abs(tableOfThieves->thieves[index].currentY - tableOfLights->lights[tableOfThieves->thieves[index].nearestLight].y);
 
     //Update money distance
     tableOfThieves->thieves[index].previousMoneyDistanceX = tableOfThieves->thieves[index].currentMoneyDistanceX;
@@ -207,8 +212,11 @@ void updateUtility(State nextState, Action action, AllThieves *tableOfThieves, u
 */
 float reward(AllThieves *tableOfThieves, unsigned short int index)
 {
-    float currentDistanceLights = tableOfThieves->thieves[index].currentLightsDistance;
-    float previousDistanceLights =  tableOfThieves->thieves[index].previousLightsDistance;
+    float currentDistanceLightX = tableOfThieves->thieves[index].currentLightDistanceX;
+    float currentDistanceLightY = tableOfThieves->thieves[index].currentLightDistanceY;
+    
+    float previousDistanceLightX = tableOfThieves->thieves[index].previousLightDistanceX;
+    float previousDistanceLightY = tableOfThieves->thieves[index].previousLightDistanceY;
 
     float currentDistanceMoneyX = tableOfThieves->thieves[index].currentMoneyDistanceX;
     float currentDistanceMoneyY = tableOfThieves->thieves[index].currentMoneyDistanceY;
@@ -216,18 +224,31 @@ float reward(AllThieves *tableOfThieves, unsigned short int index)
     float previousDistanceMoneyX = tableOfThieves->thieves[index].previousMoneyDistanceX;
     float previousDistanceMoneyY = tableOfThieves->thieves[index].previousMoneyDistanceY;
 
-    if(currentDistanceLights < previousDistanceLights)
+    if( (currentDistanceMoneyX <= previousDistanceMoneyX) && (currentDistanceMoneyY <= previousDistanceMoneyY) )
     {
-        return(-(2.f));
+        if( (currentDistanceLightX >= previousDistanceLightX) && (currentDistanceLightY >= previousDistanceLightY) )
+        {
+            return(1.f);
+        }
+        if( (currentDistanceLightX <= previousDistanceLightX) && (currentDistanceLightY <= previousDistanceLightY) )
+        {
+            return(-0.3f);
+        }
     }
-    else if( (currentDistanceMoneyX < previousDistanceMoneyX) || (currentDistanceMoneyY < previousDistanceMoneyY) )
+
+    if( (currentDistanceMoneyX >= previousDistanceMoneyX) && (currentDistanceMoneyY >= previousDistanceMoneyY) )
     {
-        return(1.f);
+        if( (currentDistanceLightX >= previousDistanceLightX) && (currentDistanceLightY >= previousDistanceLightY) )
+        {
+            return(-1.f);
+        }
+        if( (currentDistanceLightX <= previousDistanceLightX) && (currentDistanceLightY <= previousDistanceLightY) )
+        {
+            return(-2.f);
+        }
     }
-    else
-    {
-        return(-(2.f));
-    } 
+
+    return(0);
 }
 
 /*

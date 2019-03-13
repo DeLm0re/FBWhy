@@ -67,8 +67,11 @@ typedef struct Thief
     unsigned short int previousY;
     State currentState;
     WeightsTable weights;
-    float currentLightsDistance;
-    float previousLightsDistance;
+    unsigned short int currentLightDistanceX;
+    unsigned short int currentLightDistanceY;
+    unsigned short int previousLightDistanceX;
+    unsigned short int previousLightDistanceY;
+    unsigned short int nearestLight;
     unsigned short int currentMoneyDistanceX;
     unsigned short int currentMoneyDistanceY;
     unsigned short int previousMoneyDistanceX;
@@ -285,17 +288,17 @@ double degreeToRadian(unsigned short int degree);
 
 /*
 * function :
-*           Return the sum of the distance with all the lights for a specific Thief
+*           Return the index of the nearest Light considering a specific Thief
 * 
 * param :
 *           AllThieves *tableOfThieves : A pointer on a table of "Thief"
 *           unsigned short int index : The index in the table of "Thief", pointing the specific Thief
-*           AllThieves *tableOfLights : A pointer on a table of "Lights"
+*           AllLights *tableOfLights : A pointer on a table of "Light"
 *
 * return :
-*           float : The sum of all the distance
+*           unsigned short int : The index of the nearest Light
 */
-float calculLightsDistance(AllThieves *tableOfThieves, unsigned short int index, AllLights *tableOfLights);
+unsigned short int indexNearestLight(AllThieves *tableOfThieves, unsigned short int index, AllLights *tableOfLights);
 
 /*
 * function :
@@ -304,7 +307,7 @@ float calculLightsDistance(AllThieves *tableOfThieves, unsigned short int index,
 * param :
 *           AllThieves *tableOfThieves : A pointer on a table of "Thief"
 *           unsigned short int index : The index in the table of "Thief", pointing the specific Thief
-*           AllThieves *tableOfMoney : A pointer on a table of "Money"
+*           AllMoney *tableOfMoney : A pointer on a table of "Money"
 *
 * return :
 *           unsigned short int : The index of the nearest Money
