@@ -212,6 +212,8 @@ void updateUtility(State nextState, Action action, AllThieves *tableOfThieves, u
 */
 float reward(AllThieves *tableOfThieves, unsigned short int index)
 {
+    float reward = 0.f;
+
     float currentDistanceLightX = tableOfThieves->thieves[index].currentLightDistanceX;
     float currentDistanceLightY = tableOfThieves->thieves[index].currentLightDistanceY;
     
@@ -226,29 +228,23 @@ float reward(AllThieves *tableOfThieves, unsigned short int index)
 
     if( (currentDistanceMoneyX <= previousDistanceMoneyX) && (currentDistanceMoneyY <= previousDistanceMoneyY) )
     {
-        if( (currentDistanceLightX >= previousDistanceLightX) && (currentDistanceLightY >= previousDistanceLightY) )
-        {
-            return(1.f);
-        }
-        if( (currentDistanceLightX <= previousDistanceLightX) && (currentDistanceLightY <= previousDistanceLightY) )
-        {
-            return(-0.3f);
-        }
+        reward = reward + .5f;
     }
-
-    if( (currentDistanceMoneyX >= previousDistanceMoneyX) && (currentDistanceMoneyY >= previousDistanceMoneyY) )
+    else
     {
-        if( (currentDistanceLightX >= previousDistanceLightX) && (currentDistanceLightY >= previousDistanceLightY) )
-        {
-            return(-1.f);
-        }
-        if( (currentDistanceLightX <= previousDistanceLightX) && (currentDistanceLightY <= previousDistanceLightY) )
-        {
-            return(-2.f);
-        }
+        reward = reward -.5f;
     }
 
-    return(0);
+    if( (currentDistanceLightX >= previousDistanceLightX) && (currentDistanceLightY >= previousDistanceLightY) )
+    {
+        reward = reward + .5f;
+    }
+    else
+    {
+        reward = reward - .5f;
+    }
+
+    return(reward);
 }
 
 /*
