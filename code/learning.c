@@ -57,57 +57,62 @@ void update(Automaton aAutomaton, Action action, AllThieves *tableOfThieves, uns
             tableOfThieves->thieves[index].previousY = tableOfThieves->thieves[index].currentY;
             tableOfThieves->thieves[index].currentY ++;
 			break;
-
+        /*
         case GoingUpRight:
 			tableOfThieves->thieves[index].previousX = tableOfThieves->thieves[index].currentX;
             tableOfThieves->thieves[index].previousY = tableOfThieves->thieves[index].currentY;
             tableOfThieves->thieves[index].currentX ++;
             tableOfThieves->thieves[index].currentY ++;
 			break;
-
+        */
         case GoingRight:
 			tableOfThieves->thieves[index].previousX = tableOfThieves->thieves[index].currentX;
             tableOfThieves->thieves[index].currentX ++;
 			break;
-
+        /*
 		case GoingDownRight:
 			tableOfThieves->thieves[index].previousX = tableOfThieves->thieves[index].currentX;
             tableOfThieves->thieves[index].previousY = tableOfThieves->thieves[index].currentY;
             tableOfThieves->thieves[index].currentX ++;
             tableOfThieves->thieves[index].currentY --;
 			break;
-
+        */
         case GoingDown:
             tableOfThieves->thieves[index].previousY = tableOfThieves->thieves[index].currentY;
             tableOfThieves->thieves[index].currentY --;
 			break;
-
+        /*
         case GoingDownLeft:
 			tableOfThieves->thieves[index].previousX = tableOfThieves->thieves[index].currentX;
             tableOfThieves->thieves[index].previousY = tableOfThieves->thieves[index].currentY;
             tableOfThieves->thieves[index].currentX --;
             tableOfThieves->thieves[index].currentY --;
 			break;
-        
+        */
         case GoingLeft:
 			tableOfThieves->thieves[index].previousX = tableOfThieves->thieves[index].currentX;
             tableOfThieves->thieves[index].currentX --;
 			break;
-
+        /*
         case GoingUpLeft:
 			tableOfThieves->thieves[index].previousX = tableOfThieves->thieves[index].currentX;
             tableOfThieves->thieves[index].previousY = tableOfThieves->thieves[index].currentY;
             tableOfThieves->thieves[index].currentX --;
             tableOfThieves->thieves[index].currentY ++;
 			break;
-
+        */
         case Stable:
 			break;
 	}
 
     //Update lights distance
-    tableOfThieves->thieves[index].previousLightsDistance = tableOfThieves->thieves[index].currentLightsDistance;
-    tableOfThieves->thieves[index].currentLightsDistance = calculLightsDistance(tableOfThieves, index, tableOfLights);
+    tableOfThieves->thieves[index].previousLightDistanceX = tableOfThieves->thieves[index].currentLightDistanceX;
+    tableOfThieves->thieves[index].previousLightDistanceY = tableOfThieves->thieves[index].currentLightDistanceY;
+    tableOfThieves->thieves[index].nearestLight = indexNearestLight(tableOfThieves, index, tableOfLights);
+    tableOfThieves->thieves[index].currentLightDistanceX = 
+        abs(tableOfThieves->thieves[index].currentX - tableOfLights->lights[tableOfThieves->thieves[index].nearestLight].x);
+    tableOfThieves->thieves[index].currentLightDistanceY = 
+        abs(tableOfThieves->thieves[index].currentY - tableOfLights->lights[tableOfThieves->thieves[index].nearestLight].y);
 
     //Update money distance
     tableOfThieves->thieves[index].previousMoneyDistanceX = tableOfThieves->thieves[index].currentMoneyDistanceX;
@@ -146,7 +151,8 @@ Action chooseAction(AllThieves *tableOfThieves, unsigned short int index)
 
     Action actionToMake = GoUp;
 
-    for(indexAction = GoUpRight; indexAction <= NoActivity; indexAction++)
+    //for(indexAction = GoUpRight; indexAction <= NoActivity; indexAction++)
+    for(indexAction = GoRight; indexAction <= NoActivity; indexAction++)
     {
         if(tableOfThieves->thieves[index].weights[actualState][indexAction] > tableOfThieves->thieves[index].weights[actualState][actionToMake])
         {
@@ -179,7 +185,8 @@ void updateUtility(State nextState, Action action, AllThieves *tableOfThieves, u
 
     float maxWeight = tableOfThieves->thieves[index].weights[nextState][GoUp];
 
-    for(indexAction = GoUpRight; indexAction <= NoActivity; ++indexAction)
+    //for(indexAction = GoUpRight; indexAction <= NoActivity; ++indexAction)
+    for(indexAction = GoRight; indexAction <= NoActivity; ++indexAction)
     {
         if(tableOfThieves->thieves[index].weights[nextState][indexAction] > maxWeight)
         {
@@ -205,24 +212,39 @@ void updateUtility(State nextState, Action action, AllThieves *tableOfThieves, u
 */
 float reward(AllThieves *tableOfThieves, unsigned short int index)
 {
-    /*
-    float currentDL = tableOfThieves->thieves[index].currentLightsDistance;
-    float previousDL =  tableOfThieves->thieves[index].previousLightsDistance;
-*/
+    float reward = 0.f;
+
+    float currentDistanceLightX = tableOfThieves->thieves[index].currentLightDistanceX;
+    float currentDistanceLightY = tableOfThieves->thieves[index].currentLightDistanceY;
+    
+    float previousDistanceLightX = tableOfThieves->thieves[index].previousLightDistanceX;
+    float previousDistanceLightY = tableOfThieves->thieves[index].previousLightDistanceY;
+
     float currentDistanceMoneyX = tableOfThieves->thieves[index].currentMoneyDistanceX;
     float currentDistanceMoneyY = tableOfThieves->thieves[index].currentMoneyDistanceY;
     
     float previousDistanceMoneyX = tableOfThieves->thieves[index].previousMoneyDistanceX;
     float previousDistanceMoneyY = tableOfThieves->thieves[index].previousMoneyDistanceY;
 
-    if( (currentDistanceMoneyX < previousDistanceMoneyX) && (currentDistanceMoneyY < previousDistanceMoneyY) )
+    if( (currentDistanceMoneyX <= previousDistanceMoneyX) && (currentDistanceMoneyY <= previousDistanceMoneyY) )
     {
-        return(2.f);
+        reward = reward + .5f;
     }
     else
     {
-        return(-(2.f));
-    } 
+        reward = reward -.5f;
+    }
+
+    if( (currentDistanceLightX >= previousDistanceLightX) && (currentDistanceLightY >= previousDistanceLightY) )
+    {
+        reward = reward + .5f;
+    }
+    else
+    {
+        reward = reward - .5f;
+    }
+
+    return(reward);
 }
 
 /*
@@ -242,35 +264,35 @@ void printStateValue(State aStateEnum)
         case GoingUp:
 			printf("GoingUp\n");
 			break;
-
+        /*
         case GoingUpRight:
 			printf("GoingUpRight\n");
 			break;
-
+        */
         case GoingRight:
 			printf("GoingRight\n");
 			break;
-
+        /*
 		case GoingDownRight:
 			printf("GoingDownRight\n");
 			break;
-
+        */
         case GoingDown:
 			printf("GoingDown\n");
 			break;
-
+        /*
         case GoingDownLeft:
 			printf("GoingDownLeft\n");
 			break;
-        
+        */
         case GoingLeft:
 			printf("GoingLeft\n");
 			break;
-
+        /*
         case GoingUpLeft:
 			printf("GoingUpLeft\n");
 			break;
-
+        */
         case Stable:
             printf("Stable\n");
 			break;
@@ -294,35 +316,35 @@ void printActionValue(State anActionEnum)
         case GoUp:
 			printf("GoUp\n");
 			break;
-
+        /*
         case GoUpRight:
 			printf("GoUpRight\n");
 			break;
-
+        */
         case GoRight:
 			printf("GoRight\n");
 			break;
-
+        /*
 		case GoDownRight:
 			printf("GoDownRight\n");
 			break;
-
+        */
         case GoDown:
 			printf("GoDown\n");
 			break;
-
+        /*
         case GoDownLeft:
 			printf("GoDownLeft\n");
 			break;
-        
+        */
         case GoLeft:
 			printf("GoLeft\n");
 			break;
-
+        /*
         case GoUpLeft:
 			printf("GoUpLeft\n");
 			break;
-
+        */
         case NoActivity:
             printf("NoActivity\n");
 			break;

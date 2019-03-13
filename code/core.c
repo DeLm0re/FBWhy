@@ -302,8 +302,13 @@ void positionElements(AllLights *tableOfLights, AllThieves *tableOfThieves, AllM
             tableOfThieves->thieves[indexThieves].previousY = tableOfThieves->thieves[indexThieves].currentY;
         }while(thiefUnderLights(tableOfThieves, indexThieves, tableOfLights) == true);
 
-        tableOfThieves->thieves[indexThieves].currentLightsDistance = calculLightsDistance(tableOfThieves, indexThieves, tableOfLights);
-        tableOfThieves->thieves[indexThieves].previousLightsDistance = tableOfThieves->thieves[indexThieves].currentLightsDistance;
+        tableOfThieves->thieves[indexThieves].nearestLight = indexNearestLight(tableOfThieves, indexThieves, tableOfLights);
+        tableOfThieves->thieves[indexThieves].currentLightDistanceX = 
+        abs(tableOfThieves->thieves[indexThieves].currentX - tableOfLights->lights[tableOfThieves->thieves[indexThieves].nearestLight].x);
+        tableOfThieves->thieves[indexThieves].currentLightDistanceY = 
+        abs(tableOfThieves->thieves[indexThieves].currentY - tableOfLights->lights[tableOfThieves->thieves[indexThieves].nearestLight].y);
+        tableOfThieves->thieves[indexThieves].previousLightDistanceX = tableOfThieves->thieves[indexThieves].currentLightDistanceX;
+        tableOfThieves->thieves[indexThieves].previousLightDistanceY = tableOfThieves->thieves[indexThieves].currentLightDistanceY;
 
         tableOfThieves->thieves[indexThieves].nearestMoney = indexNearestMoney(tableOfThieves, indexThieves, tableOfMoney);
         tableOfThieves->thieves[indexThieves].currentMoneyDistanceX = 
@@ -421,35 +426,46 @@ double degreeToRadian(unsigned short int degree)
 
 /*
 * function :
-*           Return the sum of the distance with all the lights for a specific Thief
+*           Return the index of the nearest Light considering a specific Thief
 * 
 * param :
 *           AllThieves *tableOfThieves : A pointer on a table of "Thief"
 *           unsigned short int index : The index in the table of "Thief", pointing the specific Thief
-*           AllThieves *tableOfLights : A pointer on a table of "Lights"
+*           AllLights *tableOfLights : A pointer on a table of "Light"
 *
 * return :
-*           float : The sum of all the distance
+*           unsigned short int : The index of the nearest Light
 */
-float calculLightsDistance(AllThieves *tableOfThieves, unsigned short int index, AllLights *tableOfLights)
+unsigned short int indexNearestLight(AllThieves *tableOfThieves, unsigned short int index, AllLights *tableOfLights)
 {
-    float sumDistance = 0;
+    unsigned short int indexLight;
+    unsigned short int indexNearestLight = 0;
 
-    unsigned short int indexLights;
+    double minDistance = (tableOfLights->lights[indexNearestLight].x - tableOfThieves->thieves[index].currentX)
+                    *(tableOfLights->lights[indexNearestLight].x - tableOfThieves->thieves[index].currentX)
+                    + (tableOfLights->lights[indexNearestLight].y - tableOfThieves->thieves[index].currentY)
+                    *(tableOfLights->lights[indexNearestLight].y - tableOfThieves->thieves[index].currentY);
 
-    float distance;
+    double distance;
 
-    for(indexLights = 0; indexLights  < tableOfLights->lenght; indexLights ++)
+    for(indexLight = 0; indexLight < tableOfLights->lenght; indexLight++)
     {
-        distance = (tableOfLights->lights[indexLights].x - tableOfThieves->thieves[index].currentX)
-                    *(tableOfLights->lights[indexLights].x - tableOfThieves->thieves[index].currentX)
-                    + (tableOfLights->lights[indexLights].y - tableOfThieves->thieves[index].currentY)
-                    *(tableOfLights->lights[indexLights].y - tableOfThieves->thieves[index].currentY);
+        distance = (tableOfLights->lights[indexLight].x - tableOfThieves->thieves[index].currentX)
+                    *(tableOfLights->lights[indexLight].x - tableOfThieves->thieves[index].currentX)
+                    + (tableOfLights->lights[indexLight].y - tableOfThieves->thieves[index].currentY)
+                    *(tableOfLights->lights[indexLight].y - tableOfThieves->thieves[index].currentY);
 
-        sumDistance += sqrt(distance);
+        if(distance < minDistance)
+        {
+            indexNearestLight = indexLight;
+            minDistance = (tableOfLights->lights[indexNearestLight].x - tableOfThieves->thieves[index].currentX)
+                    *(tableOfLights->lights[indexNearestLight].x - tableOfThieves->thieves[index].currentX)
+                    + (tableOfLights->lights[indexNearestLight].y - tableOfThieves->thieves[index].currentY)
+                    *(tableOfLights->lights[indexNearestLight].y - tableOfThieves->thieves[index].currentY);
+        }
     }
 
-    return(sumDistance);
+    return (indexNearestLight);
 }
 
 /*
@@ -469,14 +485,14 @@ unsigned short int indexNearestMoney(AllThieves *tableOfThieves, unsigned short 
     unsigned short int indexMoney;
     unsigned short int indexNearestMoney = 0;
 
-    float minDistance = (tableOfMoney->money[indexNearestMoney].x - tableOfThieves->thieves[index].currentX)
+    double minDistance = (tableOfMoney->money[indexNearestMoney].x - tableOfThieves->thieves[index].currentX)
                     *(tableOfMoney->money[indexNearestMoney].x - tableOfThieves->thieves[index].currentX)
                     + (tableOfMoney->money[indexNearestMoney].y - tableOfThieves->thieves[index].currentY)
                     *(tableOfMoney->money[indexNearestMoney].y - tableOfThieves->thieves[index].currentY);
 
-    float distance;
+    double distance;
 
-    for(indexMoney = 1; indexMoney < tableOfMoney->lenght; indexMoney++)
+    for(indexMoney = 0; indexMoney < tableOfMoney->lenght; indexMoney++)
     {
         distance = (tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[index].currentX)
                     *(tableOfMoney->money[indexMoney].x - tableOfThieves->thieves[index].currentX)
@@ -486,6 +502,10 @@ unsigned short int indexNearestMoney(AllThieves *tableOfThieves, unsigned short 
         if(distance < minDistance)
         {
             indexNearestMoney = indexMoney;
+            minDistance = (tableOfMoney->money[indexNearestMoney].x - tableOfThieves->thieves[index].currentX)
+                    *(tableOfMoney->money[indexNearestMoney].x - tableOfThieves->thieves[index].currentX)
+                    + (tableOfMoney->money[indexNearestMoney].y - tableOfThieves->thieves[index].currentY)
+                    *(tableOfMoney->money[indexNearestMoney].y - tableOfThieves->thieves[index].currentY);
         }
     }
 

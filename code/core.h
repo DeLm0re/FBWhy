@@ -14,6 +14,10 @@
 //Definition of the distance between the money and the thieves at the initialization
 #define DISTANCE_MONEY_THIEVES (200)
 
+//Definition of the number of action and state
+#define NUMBER_STATES (5)
+#define NUMBER_ACTIONS (5)
+
 #ifndef M_PI
 #define M_PI 3.141592654
 #endif
@@ -22,6 +26,7 @@
 #define WindowWidth 900
 #define WindowHeight 900
 
+/*
 //Type definition of all the state a thief can have
 typedef enum {GoingUp = 0, GoingUpRight = 1, GoingRight = 2, GoingDownRight = 3, GoingDown = 4, 
                     GoingDownLeft = 5, GoingLeft = 6, GoingUpLeft = 7, Stable = 8} State;
@@ -29,12 +34,19 @@ typedef enum {GoingUp = 0, GoingUpRight = 1, GoingRight = 2, GoingDownRight = 3,
 //Type definition of all the action a thief can make
 typedef enum {GoUp = 0, GoUpRight = 1, GoRight = 2, GoDownRight = 3, GoDown = 4, 
                     GoDownLeft = 5, GoLeft = 6, GoUpLeft = 7, NoActivity = 8} Action;
+*/
+
+//Type definition of all the state a thief can have
+typedef enum {GoingUp = 0, GoingRight = 1, GoingDown = 2, GoingLeft = 3, Stable = 4} State;
+
+//Type definition of all the action a thief can make
+typedef enum {GoUp = 0, GoRight = 1, GoDown = 2, GoLeft = 3, NoActivity = 4} Action;
 
 //Type definition of our correlation table of states
-typedef State Automaton[9][9];
+typedef State Automaton[NUMBER_STATES][NUMBER_ACTIONS];
 
 //Type definition of our weights table
-typedef float WeightsTable[9][9];
+typedef float WeightsTable[NUMBER_STATES][NUMBER_ACTIONS];
 
 //Type definition of Light
 typedef struct Light
@@ -55,8 +67,11 @@ typedef struct Thief
     unsigned short int previousY;
     State currentState;
     WeightsTable weights;
-    float currentLightsDistance;
-    float previousLightsDistance;
+    unsigned short int currentLightDistanceX;
+    unsigned short int currentLightDistanceY;
+    unsigned short int previousLightDistanceX;
+    unsigned short int previousLightDistanceY;
+    unsigned short int nearestLight;
     unsigned short int currentMoneyDistanceX;
     unsigned short int currentMoneyDistanceY;
     unsigned short int previousMoneyDistanceX;
@@ -273,17 +288,17 @@ double degreeToRadian(unsigned short int degree);
 
 /*
 * function :
-*           Return the sum of the distance with all the lights for a specific Thief
+*           Return the index of the nearest Light considering a specific Thief
 * 
 * param :
 *           AllThieves *tableOfThieves : A pointer on a table of "Thief"
 *           unsigned short int index : The index in the table of "Thief", pointing the specific Thief
-*           AllThieves *tableOfLights : A pointer on a table of "Lights"
+*           AllLights *tableOfLights : A pointer on a table of "Light"
 *
 * return :
-*           float : The sum of all the distance
+*           unsigned short int : The index of the nearest Light
 */
-float calculLightsDistance(AllThieves *tableOfThieves, unsigned short int index, AllLights *tableOfLights);
+unsigned short int indexNearestLight(AllThieves *tableOfThieves, unsigned short int index, AllLights *tableOfLights);
 
 /*
 * function :
@@ -292,7 +307,7 @@ float calculLightsDistance(AllThieves *tableOfThieves, unsigned short int index,
 * param :
 *           AllThieves *tableOfThieves : A pointer on a table of "Thief"
 *           unsigned short int index : The index in the table of "Thief", pointing the specific Thief
-*           AllThieves *tableOfMoney : A pointer on a table of "Money"
+*           AllMoney *tableOfMoney : A pointer on a table of "Money"
 *
 * return :
 *           unsigned short int : The index of the nearest Money
