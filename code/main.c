@@ -144,6 +144,10 @@ void gestionEvenement(EvenementGfx event)
 
 				case 'R':
 				case 'r':
+					deleteAllLights(&myLights);
+					deleteAllMoney(&myMoney);
+					deleteAllThieves(&myThieves);
+					etape = 0;
 					rafraichisFenetre();
 					break;
 

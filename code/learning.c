@@ -228,11 +228,11 @@ float reward(AllThieves *tableOfThieves, unsigned short int index)
 
     if( (currentDistanceMoneyX <= previousDistanceMoneyX) && (currentDistanceMoneyY <= previousDistanceMoneyY) )
     {
-        reward = reward + .5f;
+        reward = reward + .6f;
     }
     else
     {
-        reward = reward -.5f;
+        reward = reward -.6f;
     }
 
     if( (currentDistanceLightX >= previousDistanceLightX) && (currentDistanceLightY >= previousDistanceLightY) )
